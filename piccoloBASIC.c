@@ -35,29 +35,33 @@
 
 #include "piccoloBASIC.h"
 #include "ubasic.h"
+#include "lfs_wrapper.h"
 
 int main(int argc, char *argv[]) {
-  stdio_init_all();
+	stdio_init_all();
+
+	lfswrapper_lfs_mount();
+	lfswrapper_dump_dir();
 
 	static const char fakeprogram[] =
-"if 5<7 then print 111 else print 0\n\
-gosub sub:\n\
-for i = 1 to 10\n\
+"for i = 1 to 10\n\
 print i\n\
-// print i*2\n\
 next i\n\
-print \"end\"\n\
-end\n\
-sub:\n\
-print \"subroutine\"\n\
-return\n";
-
+let x = 99\n\
+print x\n\
+print \"The end is nigh\"\n\
+print \"The end is here!\"";
 	ubasic_init(fakeprogram);
 
 	do {
     		ubasic_run();
   	} while (!ubasic_finished());
 
+        // Never actually return/exit
+        while (true) {
+                printf("Hello, world!\n");
+                sleep_ms(1000);
+        }
 	return 0;
 // -------------------------
   // Open the file
@@ -98,5 +102,10 @@ return\n";
   // Free the memory allocated for the string
   free(program);
 
+	// Never actually return/exit
+	while (true) {
+        	printf("Hello, world!\n");
+        	sleep_ms(1000);
+	}
   return 0;
 }
