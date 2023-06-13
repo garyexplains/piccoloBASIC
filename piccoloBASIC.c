@@ -31,11 +31,92 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <unistd.h>
+
 #include "pico/stdlib.h"
 
 #include "piccoloBASIC.h"
 #include "ubasic.h"
 #include "lfs_wrapper.h"
+
+#define MAX_CMD_LINE 100
+
+static char * getLine(char lineBreak) {
+    const uint startLineLength = 8; // the linebuffer will automatically grow for longer lines
+    const char eof = 255;           // EOF in stdio.h -is -1, but getchar returns int 255 to avoid blocking
+
+    char * pStart = (char*)malloc(startLineLength); 
+    char * pPos = pStart;  // next character position
+    size_t maxLen = startLineLength; // current max buffer size
+    size_t len = maxLen; // current max length
+    int c;
+
+    if(!pStart) {
+        return NULL; // out of memory or dysfunctional heap
+    }
+
+    while(1) {
+        c = getchar(); // expect next character entry
+        if(c == eof || c == lineBreak) {
+            break;     // non blocking exit
+        }
+
+        if(--len == 0) { // allow larger buffer
+            len = maxLen;
+            // double the current line buffer size
+            char *pNew  = (char*)realloc(pStart, maxLen *= 2);
+            if(!pNew) {
+                free(pStart);
+                return NULL; // out of memory abort
+            }
+            // fix pointer for new buffer
+            pPos = pNew + (pPos - pStart);
+            pStart = pNew;
+        }
+
+        // stop reading if lineBreak character entered 
+        if((*pPos++ = c) == lineBreak) {
+            break;
+        }
+    }
+
+    *pPos = '\0';   // set string end mark
+    return pStart;
+}
+
+int enter_CMD_mode() {
+   	char line[MAX_CMD_LINE];
+   	char *result;
+	int done = 0;
+
+	printf("PiccoloBASIC CMD Mode\n");
+
+	while(!done) {
+		result = getLine('\r');
+	   	if (result != NULL) {
+      			printf("CMD: %s\n", result);
+			if(strcmp(result, "exit")==0) {
+				done=1;
+			}
+		}
+	}
+	return 0;
+}
+
+int check_if_should_enter_CMD_mode() {
+	int chr = getchar_timeout_us(0);
+	if (chr != PICO_ERROR_TIMEOUT) {
+		if(chr == 3) { // CTRL-C
+			int chr2 = getchar_timeout_us(500 * 1000);
+        		if (chr2 != PICO_ERROR_TIMEOUT) {
+				enter_CMD_mode();
+				return 1;
+			}
+		}
+	}
+
+	return 0;
+}
 
 int main(int argc, char *argv[]) {
 	stdio_init_all();
@@ -59,6 +140,7 @@ print \"The end is here!\"";
 
         // Never actually return/exit
         while (true) {
+		check_if_should_enter_CMD_mode();
                 printf("Hello, world!\n");
                 sleep_ms(1000);
         }
