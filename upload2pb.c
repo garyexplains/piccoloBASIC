@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 /*
  * Compile with:
@@ -46,7 +48,7 @@ void read_file_hex(const char *filename) {
   fclose(file);
 }
 
-static char *getLine(FILE *fp, int echo) {
+static char *getLine(int fd, int echo) {
   const uint startLineLength =
       8; // the linebuffer will automatically grow for longer lines
   const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
@@ -63,7 +65,8 @@ static char *getLine(FILE *fp, int echo) {
   }
 
   while (1) {
-    c = fgetc(fp); // expect next character entry
+    read(pd, &c, 1);
+    //c = fgetc(fp); // expect next character entry
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     if (c == 0x03) { // CTRL-C
