@@ -87,7 +87,7 @@ static char *getLine() {
     }
 
     // stop reading if lineBreak character entered
-    if ((*pPos++ = c) == lineBreak) {
+    if ((*pPos++ = c) == '\n') {
       break;
     }
   }
