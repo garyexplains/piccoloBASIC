@@ -125,10 +125,10 @@ int main(int argc, char *argv[]) {
     // Send CTRL-C twice
     char ctrlc = 0x03;
     //fputc(0x03, fpout);
-    fwrite(&ctrlc, 1, 1, fpout)
+    fwrite(&ctrlc, 1, 1, fpout);
     fflush(fpout);
     //fputc(0x03, fpout);
-    fwrite(&ctrlc, 1, 1, fpout)
+    fwrite(&ctrlc, 1, 1, fpout);
     fflush(fpout);
     char *banner = getLine(fpout, 1);
     printf("R: %s\n", banner);
