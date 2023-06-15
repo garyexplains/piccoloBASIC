@@ -132,6 +132,7 @@ int enter_CMD_mode() {
       }
     }
   }
+}
 
   int check_if_should_enter_CMD_mode() {
     int chr = getchar_timeout_us(0);
@@ -152,7 +153,7 @@ int enter_CMD_mode() {
     stdio_init_all();
 
     lfswrapper_lfs_mount();
-    lfswrapper_dump_dir();
+    lfswrapper_dump_dir("/");
 
     static const char fakeprogram[] = "for i = 1 to 10\n\
 print i\n\
