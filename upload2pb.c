@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
     // Send CTRL-C twice
     fputc(0x03, fpout);
     fputc(0x03, fpout);
-
+    fflush(fpout);
     char *banner = getLine(fpout, 0);
     printf("R: %s\n", banner);
     free(banner);
