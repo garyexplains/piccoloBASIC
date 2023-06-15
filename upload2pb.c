@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 /*
  * Compile with:
@@ -127,7 +128,8 @@ int main(int argc, char *argv[]) {
     //fputc(0x03, fpout);
     fwrite(&ctrlc, 1, 1, fpout);
     fflush(fpout);
-    //fputc(0x03, fpout);
+    usleep(500000);
+    // fputc(0x03, fpout);
     fwrite(&ctrlc, 1, 1, fpout);
     fflush(fpout);
     char *banner = getLine(fpout, 1);
