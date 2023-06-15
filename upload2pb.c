@@ -66,9 +66,11 @@ static char *getLine(int fd, int echo) {
   while (1) {
 
     int sts = read(fd, &c, 1);
-    while (sts==0) {
+    printf("sts: %x\n", sts);
+    while (sts == 0) {
       usleep(500);
       sts = read(fd, &c, 1);
+    printf("sts: %x\n", sts);
     }
 
           printf("%x/", c);
