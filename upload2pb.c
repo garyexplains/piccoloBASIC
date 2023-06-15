@@ -157,6 +157,7 @@ int main(int argc, char *argv[]) {
   // fputc(0x03, fpout);
   write(pb, &ctrlc, 1);
   fsync(pb);
+  usleep(500000);
   write(pb, &ctrlc, 1);
   fsync(pb);
   char *banner = getLine(pb, 1);
