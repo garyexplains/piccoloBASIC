@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   free(banner);
-  send_cmd(pb, "exit\n");
+  send_cmd(pb, "exit\r\n");
   // read_file_hex(argv[1]);
   close(pb);
   return 0;
