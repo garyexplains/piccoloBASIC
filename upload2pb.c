@@ -148,7 +148,7 @@ int main(int argc, char *argv[]) {
 
   pb = open(argv[2], O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (pb == -1) {
-    printf("Couldn't open USB or serial port to piccoloBASIC!");
+    printf("Couldn't open USB or serial port to piccoloBASIC!\n");
     return 1;
   }
   printf("Device opened...\n");
