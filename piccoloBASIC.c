@@ -44,7 +44,7 @@
 
 char cwd[MAX_PATH_LEN];
 
-static char *getLine() {
+static char *getLine(int echo) {
   const uint startLineLength = 8; // the linebuffer will automatically grow for longer lines
   const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
                         // avoid blocking
@@ -61,18 +61,19 @@ static char *getLine() {
 
   while (1) {
     c = getchar();   // expect next character entry
-    printf("%c", c);
+    if(echo)
+      printf("%c", c);
     if (c == 0x03) { // CTRL-C
       if (!pStart) {
         free(pStart);
       }
       return NULL;
     }
-    if (c == '\r') {
+    if (c == '\n') {
       continue; // ignore
     }
 
-    if (c == eof || c == '\n') {
+    if (c == eof || c == '\r') {
       break; // non blocking exit
     }
 
@@ -90,7 +91,7 @@ static char *getLine() {
     }
 
     // stop reading if lineBreak character entered
-    if ((*pPos++ = c) == '\n') {
+    if ((*pPos++ = c) == '\r') {
       break;
     }
   }
@@ -108,7 +109,7 @@ int enter_CMD_mode() {
   sprintf(cwd, "%s", "/");
 
   while (!done) {
-    result = getLine('\r');
+    result = getLine(1);
     printf("CMD: %s\n", result);
     // Extract the first token
     char *token = strtok(result, " ");
