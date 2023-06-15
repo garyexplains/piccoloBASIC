@@ -109,11 +109,11 @@ static char *getLine(int echo) {
 
 int doupload(char *uploadfilename, int uploadfilesize) {
   int count = 0;
-  lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT);
+  lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT | LFS_O_TRUNC);
   while(count < uploadfilesize) {
     char *result = getLine(1);
     int b = atoi(result);
-    printf("%x\n", b);
+    lfswrapper_file_write(&b, 1);
     count++;
     free(result);
   }
