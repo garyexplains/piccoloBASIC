@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
 //   fflush(fpout);
     fputc('l', fpout);
     fputc('s', fpout);
-    fputc('\n', fpout);
+    fputc('\r\n', fpout);
     fflush(fpout);
   char *banner = getLine(fpout, 1);
   printf("R: %s\n", banner);
