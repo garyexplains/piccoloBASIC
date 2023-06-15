@@ -104,13 +104,18 @@ static char *getLine(int echo) {
 
 int enter_CMD_mode() {
   char line[MAX_CMD_LINE];
-  char *result;
+  char *result = NULL;
   int done = 0;
 
+  stdio_flush();
   printf("PiccoloBASIC CMD Mode\n");
+  stdio_flush();
+
   sprintf(cwd, "%s", "/");
 
   while (!done) {
+    if(result != NULL)
+      free(result);
     result = getLine(1);
     // Extract the first token
     char *token = strtok(result, " ");
@@ -154,8 +159,8 @@ int enter_CMD_mode() {
   int main(int argc, char *argv[]) {
     stdio_init_all();
 
-printf("\n");
-sleep_ms(2000);
+    printf("\n");
+    sleep_ms(2000);
 
     lfswrapper_lfs_mount();
     lfswrapper_dump_dir("/");
