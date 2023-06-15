@@ -59,13 +59,19 @@ static char *getLine(int echo) {
   size_t maxLen = startLineLength; // current max buffer size
   size_t len = maxLen;             // current max length
   int c;
+  int lookahead = -1;
 
   if (!pStart) {
     return NULL; // out of memory or dysfunctional heap
   }
 
   while (1) {
-    c = getchar(); // expect next character entry
+    if(lookahead >= 0) {
+      c = lookahead;
+      lookahead = -1;
+    } else {
+      c = getchar();
+    }
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     if (c == 0x03) { // CTRL-C
@@ -74,12 +80,28 @@ static char *getLine(int echo) {
       }
       return NULL;
     }
-    if (c == '\n') {
-      continue; // ignore
+
+    if (c == eof) {
+      break; // Done
     }
 
-    if (c == eof || c == '\r') {
-      break; // non blocking exit
+    if (c == '\n') {
+      break; // Done
+    }
+
+    if (c == '\r') {
+      lookahead = getchar_timeout_us(500000);
+      if(lookahead == PICO_ERROR_TIMEOUT) {
+        // Assume \r was the end of the line
+        break; // Done
+      }
+      if(lookahead == '\n') {
+        lookahead = -1;
+        break;
+      } else {
+        // Assume \r was the end of the line
+        break; // Done
+      }
     }
 
     if (--len == 0) { // allow larger buffer
