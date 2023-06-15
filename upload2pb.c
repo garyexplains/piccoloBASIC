@@ -70,11 +70,11 @@ static char *getLine(FILE *fp, int echo) {
       }
       return NULL;
     }
-    if (c == '\n') {
+    if (c == '\r') {
       continue; // ignore
     }
 
-    if (c == eof || c == '\r') {
+    if (c == eof || c == '\n') {
       break; // non blocking exit
     }
 
@@ -92,7 +92,7 @@ static char *getLine(FILE *fp, int echo) {
     }
 
     // stop reading if lineBreak character entered
-    if ((*pPos++ = c) == '\r') {
+    if ((*pPos++ = c) == '\n') {
       break;
     }
   }
