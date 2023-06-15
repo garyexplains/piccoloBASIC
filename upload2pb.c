@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
     fputc(0x03, fpout);
     fputc(0x03, fpout);
     fflush(fpout);
-    char *banner = getLine(fpout, 0);
+    char *banner = getLine(fpout, 1);
     printf("R: %s\n", banner);
     free(banner);
     // read_file_hex(argv[1]);
