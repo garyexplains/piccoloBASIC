@@ -114,12 +114,14 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    printf("Uploading %s to piccoloBASIC via %s\n", argv[1], argv[2]);
+
     fpout = fopen(argv[2], "rw");
     if (fpout == NULL) {
         printf("Couldn't open USB or serial port to piccoloBASIC!");
         return 1;
     }
-
+    printf("Device opened...\n");
     // Send CTRL-C twice
     fputc(0x03, fpout);
     fputc(0x03, fpout);
