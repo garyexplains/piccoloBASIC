@@ -127,10 +127,12 @@ int main(int argc, char *argv[]) {
     char ctrlc = 0x03;
     //fputc(0x03, fpout);
     fwrite(&ctrlc, 1, 1, fpout);
+    printf("CTRL-C 1...\n");
     fflush(fpout);
     usleep(500000);
     // fputc(0x03, fpout);
     fwrite(&ctrlc, 1, 1, fpout);
+    printf("CTRL-C 1...\n");
     fflush(fpout);
     char *banner = getLine(fpout, 1);
     printf("R: %s\n", banner);
