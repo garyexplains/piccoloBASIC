@@ -31,121 +31,132 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <unistd.h>
+// #include <unistd.h>
 
 #include "pico/stdlib.h"
 
+#include "lfs_wrapper.h"
 #include "piccoloBASIC.h"
 #include "ubasic.h"
-#include "lfs_wrapper.h"
 
 #define MAX_CMD_LINE 100
 
-static char * getLine(char lineBreak) {
-    const uint startLineLength = 8; // the linebuffer will automatically grow for longer lines
-    const char eof = 255;           // EOF in stdio.h -is -1, but getchar returns int 255 to avoid blocking
+static char *getLine() {
+  const uint startLineLength =
+      8; // the linebuffer will automatically grow for longer lines
+  const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
+                        // avoid blocking
 
-    char * pStart = (char*)malloc(startLineLength); 
-    char * pPos = pStart;  // next character position
-    size_t maxLen = startLineLength; // current max buffer size
-    size_t len = maxLen; // current max length
-    int c;
+  char *pStart = (char *)malloc(startLineLength);
+  char *pPos = pStart;             // next character position
+  size_t maxLen = startLineLength; // current max buffer size
+  size_t len = maxLen;             // current max length
+  int c;
 
-    if(!pStart) {
-        return NULL; // out of memory or dysfunctional heap
+  if (!pStart) {
+    return NULL; // out of memory or dysfunctional heap
+  }
+
+  while (1) {
+    c = getchar();   // expect next character entry
+    if (c == 0x03) { // CTRL-C
+      if (!pStart) {
+        free(pStart);
+      }
+      return NULL;
+    }
+    if (c == '\r') {
+      continue; // ignore
     }
 
-    while(1) {
-        c = getchar(); // expect next character entry
-        if(c == eof || c == lineBreak) {
-            break;     // non blocking exit
-        }
-
-        if(--len == 0) { // allow larger buffer
-            len = maxLen;
-            // double the current line buffer size
-            char *pNew  = (char*)realloc(pStart, maxLen *= 2);
-            if(!pNew) {
-                free(pStart);
-                return NULL; // out of memory abort
-            }
-            // fix pointer for new buffer
-            pPos = pNew + (pPos - pStart);
-            pStart = pNew;
-        }
-
-        // stop reading if lineBreak character entered 
-        if((*pPos++ = c) == lineBreak) {
-            break;
-        }
+    if (c == eof || c == '\n') {
+      break; // non blocking exit
     }
 
-    *pPos = '\0';   // set string end mark
-    return pStart;
+    if (--len == 0) { // allow larger buffer
+      len = maxLen;
+      // double the current line buffer size
+      char *pNew = (char *)realloc(pStart, maxLen *= 2);
+      if (!pNew) {
+        free(pStart);
+        return NULL; // out of memory abort
+      }
+      // fix pointer for new buffer
+      pPos = pNew + (pPos - pStart);
+      pStart = pNew;
+    }
+
+    // stop reading if lineBreak character entered
+    if ((*pPos++ = c) == lineBreak) {
+      break;
+    }
+  }
+
+  *pPos = '\0'; // set string end mark
+  return pStart;
 }
 
 int enter_CMD_mode() {
-   	char line[MAX_CMD_LINE];
-   	char *result;
-	int done = 0;
+  char line[MAX_CMD_LINE];
+  char *result;
+  int done = 0;
 
-	printf("PiccoloBASIC CMD Mode\n");
+  printf("PiccoloBASIC CMD Mode\n");
 
-	while(!done) {
-		result = getLine('\r');
-	   	if (result != NULL) {
-      			printf("CMD: %s\n", result);
-			if(strcmp(result, "exit")==0) {
-				done=1;
-			}
-		}
-	}
-	return 0;
+  while (!done) {
+    result = getLine('\r');
+    if (result != NULL) {
+      printf("CMD: %s\n", result);
+      if (strcmp(result, "exit") == 0) {
+        done = 1;
+      }
+    }
+  }
+  return 0;
 }
 
 int check_if_should_enter_CMD_mode() {
-	int chr = getchar_timeout_us(0);
-	if (chr != PICO_ERROR_TIMEOUT) {
-		if(chr == 3) { // CTRL-C
-			int chr2 = getchar_timeout_us(500 * 1000);
-        		if (chr2 != PICO_ERROR_TIMEOUT) {
-				enter_CMD_mode();
-				return 1;
-			}
-		}
-	}
+  int chr = getchar_timeout_us(0);
+  if (chr != PICO_ERROR_TIMEOUT) {
+    if (chr == 3) { // CTRL-C
+      int chr2 = getchar_timeout_us(500 * 1000);
+      if (chr2 != PICO_ERROR_TIMEOUT) {
+        enter_CMD_mode();
+        return 1;
+      }
+    }
+  }
 
-	return 0;
+  return 0;
 }
 
 int main(int argc, char *argv[]) {
-	stdio_init_all();
+  stdio_init_all();
 
-	lfswrapper_lfs_mount();
-	lfswrapper_dump_dir();
+  lfswrapper_lfs_mount();
+  lfswrapper_dump_dir();
 
-	static const char fakeprogram[] =
-"for i = 1 to 10\n\
+  static const char fakeprogram[] = "for i = 1 to 10\n\
 print i\n\
 next i\n\
 let x = 99\n\
 print x\n\
 print \"The end is nigh\"\n\
 print \"The end is here!\"";
-	ubasic_init(fakeprogram);
+  ubasic_init(fakeprogram);
 
-	do {
-    		ubasic_run();
-  	} while (!ubasic_finished());
+  do {
+    ubasic_run();
+  } while (!ubasic_finished());
 
-        // Never actually return/exit
-        while (true) {
-		check_if_should_enter_CMD_mode();
-                printf("Hello, world!\n");
-                sleep_ms(1000);
-        }
-	return 0;
-// -------------------------
+  // Never actually return/exit
+  while (true) {
+    check_if_should_enter_CMD_mode();
+    printf("Hello, world!\n");
+    sleep_ms(1000);
+  }
+  return 0;
+  // -------------------------
   // Open the file
   char *filename = argv[1];
   FILE *file = fopen(filename, "r");
@@ -184,10 +195,10 @@ print \"The end is here!\"";
   // Free the memory allocated for the string
   free(program);
 
-	// Never actually return/exit
-	while (true) {
-        	printf("Hello, world!\n");
-        	sleep_ms(1000);
-	}
+  // Never actually return/exit
+  while (true) {
+    printf("Hello, world!\n");
+    sleep_ms(1000);
+  }
   return 0;
 }
