@@ -110,10 +110,11 @@ static char *getLine(int echo) {
 int doupload(char *uploadfilename, int uploadfilesize) {
   int count = 0;
   while(count < uploadfilesize) {
-    result = getLine(1);
+    char *result = getLine(1);
     int b = atoi(result);
     printf("%x\n", b);
     count++;
+    free(result);
   }
   return count;
 }
