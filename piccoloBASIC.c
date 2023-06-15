@@ -113,7 +113,7 @@ int doupload(char *uploadfilename, int uploadfilesize) {
     result = getLine(1);
     int b = atoi(result);
     printf("%x\n", b);
-    count++
+    count++;
   }
   return count;
 }
