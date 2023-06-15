@@ -107,7 +107,7 @@ static char *getLine(FILE *fp, int echo) {
 
 int main(int argc, char *argv[]) {
   FILE *fpin;
-  FILE *fpout;
+  int pb;
   char ch;
 
   if (argc != 3) {
@@ -118,27 +118,27 @@ int main(int argc, char *argv[]) {
 
   printf("Uploading %s to piccoloBASIC via %s\n", argv[1], argv[2]);
 
-  fpout = fopen(argv[2], "r+");
-  if (fpout == NULL) {
+  pb = open(argv[1], O_RDWR | O_NOCTTY | O_NONBLOCK);
+  if (pb == -1) {
     printf("Couldn't open USB or serial port to piccoloBASIC!");
     return 1;
   }
   printf("Device opened...\n");
   // Send CTRL-C twice
   char ctrlc = 0x03;
-fputc(0x03, fpout);
-//   fwrite(&ctrlc, 1, 1, fpout);
+// fputc(0x03, fpout);
+write(pb, &ctrlc, 1);
 //   printf("CTRL-C 1...\n");
-fflush(fpout);
 //   usleep(500000);
-fputc(0x03, fpout);
+// fputc(0x03, fpout);
 //   fwrite(&ctrlc, 1, 1, fpout);
 //   printf("CTRL-C 1...\n");
-fflush(fpout);
-  char *banner = getLine(fpout, 1);
-  printf("R: %s\n", banner);
-  free(banner);
-  // read_file_hex(argv[1]);
-
-  return 0;
+write(pb, &ctrlc, 1);
+//fflush(fpout);
+char *banner = getLine(fpout, 1);
+printf("R: %s\n", banner);
+free(banner);
+// read_file_hex(argv[1]);
+close(pb);
+return 0;
 }
