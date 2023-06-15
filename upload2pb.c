@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 
   printf("Uploading %s to piccoloBASIC via %s\n", argv[1], argv[2]);
 
-  fpout = fopen(argv[2], "rw");
+  fpout = fopen(argv[2], "r+");
   if (fpout == NULL) {
     printf("Couldn't open USB or serial port to piccoloBASIC!");
     return 1;
