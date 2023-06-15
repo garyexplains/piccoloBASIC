@@ -64,7 +64,12 @@ static char *getLine(int fd, int echo) {
   }
 
   while (1) {
-    read(fd, &c, 1);
+
+    while(read(fd, &c, 1)!=0) {
+        usleep(500);
+    }
+    
+
           printf("%x/", c);
 
     //c = fgetc(fp); // expect next character entry
