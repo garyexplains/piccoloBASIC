@@ -109,6 +109,7 @@ int enter_CMD_mode() {
 
   while (!done) {
     result = getLine('\r');
+    printf("CMD: %s\n", result);
     // Extract the first token
     char *token = strtok(result, " ");
 
