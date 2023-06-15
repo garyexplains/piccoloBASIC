@@ -49,8 +49,7 @@ void read_file_hex(const char *filename) {
 }
 
 static char *getLine(int fd, int echo) {
-  const uint startLineLength =
-      8; // the linebuffer will automatically grow for longer lines
+  const uint startLineLength = 8; // the linebuffer will automatically grow
   const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
                         // avoid blocking
 
@@ -105,6 +104,7 @@ static char *getLine(int fd, int echo) {
   *pPos = '\0'; // set string end mark
   if (echo)
     printf("\n");
+printf("getLine: %s\n", pStart);
   return pStart;
 }
 
