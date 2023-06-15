@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    FILE *fpout = fopen(argv[2], "rw");
+    fpout = fopen(argv[2], "rw");
     if (fpout == NULL) {
         printf("Couldn't open USB or serial port to piccoloBASIC!");
         return 1;
