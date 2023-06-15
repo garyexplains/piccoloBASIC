@@ -211,8 +211,10 @@ print \"The end is here!\"";
   // Never actually return/exit
   while (true) {
     check_if_should_enter_CMD_mode();
-    printf("Hello, world!\n");
-    sleep_ms(1000);
+    printf("-\r");
+    sleep_ms(500);
+    printf("+\r");
+    sleep_ms(500);
   }
   return 0;
   // -------------------------
