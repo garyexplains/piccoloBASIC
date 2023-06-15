@@ -66,14 +66,10 @@ static char *getLine(int fd, int echo) {
   while (1) {
 
     int sts = read(fd, &c, 1);
-    printf("sts: %x\n", sts);
     while (sts == -1) {
       usleep(500);
       sts = read(fd, &c, 1);
-    printf("sts: %x\n", sts);
     }
-
-          printf("%x/", c);
 
     //c = fgetc(fp); // expect next character entry
     if ((echo) && (c >= ' ') && (c <= 126))
