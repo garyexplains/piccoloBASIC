@@ -131,12 +131,14 @@ int main(int argc, char *argv[]) {
   char ctrlc = 0x03;
   // fputc(0x03, fpout);
   write(pb, &ctrlc, 1);
+  fsync(pb);
   //   printf("CTRL-C 1...\n");
   //   usleep(500000);
   // fputc(0x03, fpout);
   //   fwrite(&ctrlc, 1, 1, fpout);
   //   printf("CTRL-C 1...\n");
   write(pb, &ctrlc, 1);
+  fsync(pb);
   // fflush(fpout);
   char *banner = getLine(pb, 1);
   printf("R: %s\n", banner);
