@@ -160,8 +160,12 @@ int main(int argc, char *argv[]) {
   write(pb, &ctrlc, 1);
   fsync(pb);
   char *banner = getLine(pb, 1);
-  if (strcmp(banner, "PiccoloBASIC CMD Mode") != 0) {
-    printf("Error entering CMD mode.\n");
+  if(banner == NULL) {
+    printf("Error entering CMD mode. NULL\n");
+    close(pb);
+    return 1;
+  } else if (strcmp(banner, "PiccoloBASIC CMD Mode") != 0) {
+    printf("Error entering CMD mode. R: %s\n", banner);
     free(banner);
     close(pb);
     return 1;
