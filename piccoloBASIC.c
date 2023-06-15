@@ -145,7 +145,7 @@ int enter_CMD_mode() {
       }
       if (strcmp(token, "upload") == 0) { // upload main.bas 432
         token = strtok(NULL, " "); // filename
-        char *uploadfilename = malloc(len(token)+1);
+        char *uploadfilename = malloc(strlen(token)+1);
         strcpy(uploadfilename, token);
         token = strtok(NULL, " "); // file size in bytes
         int uploadfilesize = atoi(token);

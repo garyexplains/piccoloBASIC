@@ -115,6 +115,10 @@ static char *getLine(int fd, int echo) {
   return pStart;
 }
 
+int send_cmd(int fd, char *cmd) {
+    return write(fd, cmd, strlen(cmd));
+}
+
 int main(int argc, char *argv[]) {
   FILE *fpin;
   int pb;
@@ -149,7 +153,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   free(banner);
-  write(pb, "exit\n", 5);
+  send_cmd(pb, "exit\n");
   // read_file_hex(argv[1]);
   close(pb);
   return 0;
