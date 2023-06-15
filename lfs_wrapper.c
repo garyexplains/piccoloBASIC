@@ -127,10 +127,10 @@ int lfswrapper_dir_close(int dir) {
 	lfs_free((void*)dir);
 }
 
-void lfswrapper_dump_dir(void) {
+void lfswrapper_dump_dir(char *path) {
 	// display each directory entry name
-	printf("File list\n");
-	int dir = lfswrapper_dir_open("/");
+	printf("%s\n", path);
+	int dir = lfswrapper_dir_open(path);
     	if (dir < 0)
         	return;
 
@@ -138,5 +138,4 @@ void lfswrapper_dump_dir(void) {
 	while (lfswrapper_dir_read(dir, &info) > 0)
         	printf("%s\n", info.name);
 	lfswrapper_dir_close(dir);
-	printf("End of list\n");
 }
