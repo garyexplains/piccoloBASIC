@@ -152,6 +152,8 @@ int enter_CMD_mode() {
   int main(int argc, char *argv[]) {
     stdio_init_all();
 
+sleep_ms(1000);
+
     lfswrapper_lfs_mount();
     lfswrapper_dump_dir("/");
 
