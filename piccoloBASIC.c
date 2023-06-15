@@ -61,7 +61,7 @@ static char *getLine(int echo) {
 
   while (1) {
     c = getchar();   // expect next character entry
-    if(echo)
+    if( (echo) && (c>=' ') && (c<=126) )
       printf("%c", c);
     if (c == 0x03) { // CTRL-C
       if (!pStart) {
@@ -110,12 +110,10 @@ int enter_CMD_mode() {
 
   while (!done) {
     result = getLine(1);
-    printf("CMD: %s\n", result);
     // Extract the first token
     char *token = strtok(result, " ");
 
     if (token != NULL) {
-      printf("CMD: %s\n", result);
       if (strcmp(token, "exit") == 0) {
         done = 1;
       }
