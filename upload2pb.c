@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
     char ch;
 
     if (argc != 3) {
-        printf("Usage: %s <filename> <device>\n");
-        printf("eg: %s main.bas /dev/ttyACM0\n");
+        printf("Usage: %s <filename> <device>\n", argv[0]);
+        printf("eg: %s main.bas /dev/ttyACM0\n", argv[0]);
         return 1;
     }
 
