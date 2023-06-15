@@ -97,6 +97,8 @@ static char *getLine(int echo) {
   }
 
   *pPos = '\0'; // set string end mark
+  if (echo)
+    printf("\n");
   return pStart;
 }
 
