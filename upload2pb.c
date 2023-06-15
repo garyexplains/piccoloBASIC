@@ -149,6 +149,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   free(banner);
+  write(pb, "exit\n", 5);
   // read_file_hex(argv[1]);
   close(pb);
   return 0;

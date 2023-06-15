@@ -28,6 +28,10 @@
  *
  */
 
+/*
+ * Warning: This code needs more error checking for bad/malformed commands sent in CMD mode
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -103,6 +107,17 @@ static char *getLine(int echo) {
   return pStart;
 }
 
+int doupload(char *uploadfilename, int uploadfilesize) {
+  int count = 0;
+  while(count < uploadfilesize) {
+    result = getLine(1);
+    int b = atoi(result);
+    printf("%x\n", b);
+    count++
+  }
+  return count;
+}
+
 int enter_CMD_mode() {
   char line[MAX_CMD_LINE];
   char *result = NULL;
@@ -127,6 +142,17 @@ int enter_CMD_mode() {
       }
       if (strcmp(token, "ls") == 0) {
         lfswrapper_dump_dir(cwd);
+      }
+      if (strcmp(token, "upload") == 0) { // upload main.bas 432
+        token = strtok(NULL, " "); // filename
+        char *uploadfilename = mallc(len(token)+1);
+        strcpy(uploadfilename, token);
+        token = strtok(NULL, " "); // file size in bytes
+        int uploadfilesize = atoi(token);
+        if(uploadfilesize > 0) {
+          doupload(uploadfilename, uploadfilesize);
+        }
+        free(uploadfilename);
       }
       if (strcmp(token, "cd") == 0) {
         token = strtok(NULL, " ");
