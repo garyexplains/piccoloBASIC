@@ -126,20 +126,15 @@ int main(int argc, char *argv[]) {
   printf("Device opened...\n");
   // Send CTRL-C twice
   char ctrlc = 0x03;
-//   // fputc(0x03, fpout);
+fputc(0x03, fpout);
 //   fwrite(&ctrlc, 1, 1, fpout);
 //   printf("CTRL-C 1...\n");
-//   fflush(fpout);
+fflush(fpout);
 //   usleep(500000);
-//   // fputc(0x03, fpout);
+fputc(0x03, fpout);
 //   fwrite(&ctrlc, 1, 1, fpout);
 //   printf("CTRL-C 1...\n");
-//   fflush(fpout);
-    fputc('l', fpout);
-    fputc('s', fpout);
-    fputc('\r', fpout);
-    fputc('\n', fpout);
-    fflush(fpout);
+fflush(fpout);
   char *banner = getLine(fpout, 1);
   printf("R: %s\n", banner);
   free(banner);
