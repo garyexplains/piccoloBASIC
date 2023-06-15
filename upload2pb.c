@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
   //   printf("CTRL-C 1...\n");
   write(pb, &ctrlc, 1);
   // fflush(fpout);
-  char *banner = getLine(fpout, 1);
+  char *banner = getLine(pb, 1);
   printf("R: %s\n", banner);
   free(banner);
   // read_file_hex(argv[1]);
