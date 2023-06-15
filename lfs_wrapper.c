@@ -27,6 +27,7 @@ static_assert(PICCOLOBASIC_HW_FLASH_STORAGE_BASE + PICCOLOBASIC_HW_FLASH_STORAGE
 
 // variables used by the filesystem
 lfs_t lfs;
+lfs_file_t current_lfs_file;
 
 int pico_lfsflash_read(const struct lfs_config *c, lfs_block_t block, lfs_off_t off, void *buffer, lfs_size_t size)
 {
@@ -125,6 +126,14 @@ int lfswrapper_dir_rewind(int dir) { return lfs_dir_rewind(&lfs, (lfs_dir_t*)dir
 int lfswrapper_dir_close(int dir) {
 	return lfs_dir_close(&lfs, (lfs_dir_t*)dir);
 	lfs_free((void*)dir);
+}
+
+int  lfswrapper_file_open(char *n, int flags) {
+    return lfs_file_open(&lfs, &current_lfs_file, n, flags);
+}
+
+int lfswrapper_file_close() {
+    return lfs_file_close(&lfs, &current_lfs_file);
 }
 
 void lfswrapper_dump_dir(char *path) {

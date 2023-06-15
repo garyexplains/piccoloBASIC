@@ -34,7 +34,7 @@ char *file2buffer(const char *filename) {
   return buffer;
 }
 
-void read_file_hex(const char *filename) {
+void doupload(const char *filename) {
   FILE *file = fopen(filename, "r");
   if (file == NULL) {
     return;
@@ -43,10 +43,24 @@ void read_file_hex(const char *filename) {
   int c;
   while ((c = fgetc(file)) != EOF) {
     // Print the character in hex
-    printf("%c %02X\n", c, c);
+    printf("%d\n", c);
   }
 
   fclose(file);
+}
+
+int get_filesize(char *file_name)
+{
+    FILE* fp = fopen(file_name, "r"); 
+    if (fp == NULL) {
+        return -1;
+    }
+  
+    fseek(fp, 0L, SEEK_END);
+    int sz = (int) ftell(fp);
+    fclose(fp);
+  
+    return sz;
 }
 
 static char *getLine(int fd, int echo) {
@@ -153,7 +167,16 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   free(banner);
-  send_cmd(pb, "exit\r\n");
+  int uploadfilesize = get_filesize(argv[1]);
+  if (uploadfilesize == -1) {
+    printf("Can't find file %s\n", argv[1]);
+  } else {
+    char uploadcmd[128];
+    sprintf(uploadcmd,"upload %s %d\r", argv[1], uploadfilesize);
+    send_cmd(pb, uploadcmd);
+    doupload(argv[1]);
+  }
+  send_cmd(pb, "exit\r");
   // read_file_hex(argv[1]);
   close(pb);
   return 0;

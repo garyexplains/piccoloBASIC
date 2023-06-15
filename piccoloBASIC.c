@@ -109,6 +109,7 @@ static char *getLine(int echo) {
 
 int doupload(char *uploadfilename, int uploadfilesize) {
   int count = 0;
+  lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT);
   while(count < uploadfilesize) {
     char *result = getLine(1);
     int b = atoi(result);
@@ -116,6 +117,7 @@ int doupload(char *uploadfilename, int uploadfilesize) {
     count++;
     free(result);
   }
+  lfswrapper_file_close();
   return count;
 }
 
