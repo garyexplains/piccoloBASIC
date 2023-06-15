@@ -61,7 +61,7 @@ static char *getLine() {
 
   while (1) {
     c = getchar();   // expect next character entry
-    putc(c);
+    printf("%c", c);
     if (c == 0x03) { // CTRL-C
       if (!pStart) {
         free(pStart);
