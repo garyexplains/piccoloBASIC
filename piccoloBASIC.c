@@ -45,8 +45,7 @@
 char cwd[MAX_PATH_LEN];
 
 static char *getLine() {
-  const uint startLineLength =
-      8; // the linebuffer will automatically grow for longer lines
+  const uint startLineLength = 8; // the linebuffer will automatically grow for longer lines
   const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
                         // avoid blocking
 
@@ -62,6 +61,7 @@ static char *getLine() {
 
   while (1) {
     c = getchar();   // expect next character entry
+    putc(c);
     if (c == 0x03) { // CTRL-C
       if (!pStart) {
         free(pStart);
