@@ -8,3 +8,5 @@ lfs_soff_t lfswrapper_dir_tell(int dir);
 int lfswrapper_dir_rewind(int dir);
 int lfswrapper_dir_close(int dir);
 void lfswrapper_dump_dir(char *);
+int  lfswrapper_file_open(char *n, int flags);
+int lfswrapper_file_close();
