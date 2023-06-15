@@ -5,6 +5,45 @@
  * gcc -o upload2pb upload2pb.c
 */
 
+char *file2buffer(const char *filename) {
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        return NULL;
+    }
+
+    fseek(file, 0L, SEEK_END);
+    long size = ftell(file);
+    rewind(file);
+
+    char *buffer = malloc(size + 1);
+    if (buffer == NULL) {
+        fclose(file);
+        return NULL;
+    }
+
+    fread(buffer, size, 1, file);
+    buffer[size] = '\0';
+
+    fclose(file);
+
+    return buffer;
+}
+
+void read_file_hex(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        return;
+    }
+
+    int c;
+    while ((c = fgetc(file)) != EOF) {
+        // Print the character in hex
+        printf("%02X ", c);
+    }
+
+    fclose(file);
+}
+
 int main(int argc, char *argv[]) {
     FILE *fp;
     char ch;
@@ -15,13 +54,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    fp = fopen(argv[1], "r");
-
-    while ((ch = fgetc(fp)) != EOF) {
-        printf("%c", ch);
-    }
-
-    fclose(fp);
+    read_file_hex(argv[1]);
 
     return 0;
 }
