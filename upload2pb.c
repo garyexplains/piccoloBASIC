@@ -5,49 +5,50 @@
 /*
  * Compile with:
  * gcc -o upload2pb upload2pb.c
-*/
+ */
 
 char *file2buffer(const char *filename) {
-    FILE *file = fopen(filename, "rb");
-    if (file == NULL) {
-        return NULL;
-    }
+  FILE *file = fopen(filename, "rb");
+  if (file == NULL) {
+    return NULL;
+  }
 
-    fseek(file, 0L, SEEK_END);
-    long size = ftell(file);
-    rewind(file);
+  fseek(file, 0L, SEEK_END);
+  long size = ftell(file);
+  rewind(file);
 
-    char *buffer = malloc(size + 1);
-    if (buffer == NULL) {
-        fclose(file);
-        return NULL;
-    }
-
-    fread(buffer, size, 1, file);
-    buffer[size] = '\0';
-
+  char *buffer = malloc(size + 1);
+  if (buffer == NULL) {
     fclose(file);
+    return NULL;
+  }
 
-    return buffer;
+  fread(buffer, size, 1, file);
+  buffer[size] = '\0';
+
+  fclose(file);
+
+  return buffer;
 }
 
 void read_file_hex(const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        return;
-    }
+  FILE *file = fopen(filename, "r");
+  if (file == NULL) {
+    return;
+  }
 
-    int c;
-    while ((c = fgetc(file)) != EOF) {
-        // Print the character in hex
-        printf("%c %02X\n", c, c);
-    }
+  int c;
+  while ((c = fgetc(file)) != EOF) {
+    // Print the character in hex
+    printf("%c %02X\n", c, c);
+  }
 
-    fclose(file);
+  fclose(file);
 }
 
 static char *getLine(FILE *fp, int echo) {
-  const uint startLineLength = 8; // the linebuffer will automatically grow for longer lines
+  const uint startLineLength =
+      8; // the linebuffer will automatically grow for longer lines
   const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
                         // avoid blocking
 
@@ -62,8 +63,8 @@ static char *getLine(FILE *fp, int echo) {
   }
 
   while (1) {
-    c = fgetc(fp);   // expect next character entry
-    if( (echo) && (c>=' ') && (c<=126) )
+    c = fgetc(fp); // expect next character entry
+    if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     if (c == 0x03) { // CTRL-C
       if (!pStart) {
@@ -105,39 +106,43 @@ static char *getLine(FILE *fp, int echo) {
 }
 
 int main(int argc, char *argv[]) {
-    FILE *fpin;
-    FILE *fpout;
-    char ch;
+  FILE *fpin;
+  FILE *fpout;
+  char ch;
 
-    if (argc != 3) {
-        printf("Usage: %s <filename> <device>\n", argv[0]);
-        printf("eg: %s main.bas /dev/ttyACM0\n", argv[0]);
-        return 1;
-    }
+  if (argc != 3) {
+    printf("Usage: %s <filename> <device>\n", argv[0]);
+    printf("eg: %s main.bas /dev/ttyACM0\n", argv[0]);
+    return 1;
+  }
 
-    printf("Uploading %s to piccoloBASIC via %s\n", argv[1], argv[2]);
+  printf("Uploading %s to piccoloBASIC via %s\n", argv[1], argv[2]);
 
-    fpout = fopen(argv[2], "rw");
-    if (fpout == NULL) {
-        printf("Couldn't open USB or serial port to piccoloBASIC!");
-        return 1;
-    }
-    printf("Device opened...\n");
-    // Send CTRL-C twice
-    char ctrlc = 0x03;
-    //fputc(0x03, fpout);
-    fwrite(&ctrlc, 1, 1, fpout);
-    printf("CTRL-C 1...\n");
+  fpout = fopen(argv[2], "rw");
+  if (fpout == NULL) {
+    printf("Couldn't open USB or serial port to piccoloBASIC!");
+    return 1;
+  }
+  printf("Device opened...\n");
+  // Send CTRL-C twice
+  char ctrlc = 0x03;
+//   // fputc(0x03, fpout);
+//   fwrite(&ctrlc, 1, 1, fpout);
+//   printf("CTRL-C 1...\n");
+//   fflush(fpout);
+//   usleep(500000);
+//   // fputc(0x03, fpout);
+//   fwrite(&ctrlc, 1, 1, fpout);
+//   printf("CTRL-C 1...\n");
+//   fflush(fpout);
+    fputc('l', fpout);
+    fputc('s', fpout);
+    fputc('\n', fpout);
     fflush(fpout);
-    usleep(500000);
-    // fputc(0x03, fpout);
-    fwrite(&ctrlc, 1, 1, fpout);
-    printf("CTRL-C 1...\n");
-    fflush(fpout);
-    char *banner = getLine(fpout, 1);
-    printf("R: %s\n", banner);
-    free(banner);
-    // read_file_hex(argv[1]);
+  char *banner = getLine(fpout, 1);
+  printf("R: %s\n", banner);
+  free(banner);
+  // read_file_hex(argv[1]);
 
-    return 0;
+  return 0;
 }

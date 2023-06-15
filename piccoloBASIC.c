@@ -45,7 +45,8 @@
 char cwd[MAX_PATH_LEN];
 
 static char *getLine(int echo) {
-  const uint startLineLength = 8; // the linebuffer will automatically grow for longer lines
+  const uint startLineLength =
+      8; // the linebuffer will automatically grow for longer lines
   const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
                         // avoid blocking
 
@@ -60,8 +61,8 @@ static char *getLine(int echo) {
   }
 
   while (1) {
-    c = getchar();   // expect next character entry
-    if( (echo) && (c>=' ') && (c<=126) )
+    c = getchar(); // expect next character entry
+    if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     if (c == 0x03) { // CTRL-C
       if (!pStart) {
@@ -114,7 +115,7 @@ int enter_CMD_mode() {
   sprintf(cwd, "%s", "/");
 
   while (!done) {
-    if(result != NULL)
+    if (result != NULL)
       free(result);
     result = getLine(1);
     // Extract the first token
@@ -141,93 +142,93 @@ int enter_CMD_mode() {
   }
 }
 
-  int check_if_should_enter_CMD_mode() {
-    int chr = getchar_timeout_us(0);
-    if (chr != PICO_ERROR_TIMEOUT) {
-      if (chr == 3) { // CTRL-C
-        int chr2 = getchar_timeout_us(500 * 1000);
-        if (chr2 != PICO_ERROR_TIMEOUT) {
+int check_if_should_enter_CMD_mode() {
+  int chr = getchar_timeout_us(0);
+  if (chr != PICO_ERROR_TIMEOUT) {
+    if (chr == 3) { // CTRL-C
+      int chr2 = getchar_timeout_us(500 * 1000);
+      if (chr2 != PICO_ERROR_TIMEOUT) {
         enter_CMD_mode();
         return 1;
-        }
       }
     }
-
-    return 0;
   }
 
-  int main(int argc, char *argv[]) {
-    stdio_init_all();
+  return 0;
+}
 
-    printf("\n");
-    sleep_ms(2000);
+int main(int argc, char *argv[]) {
+  stdio_init_all();
 
-    lfswrapper_lfs_mount();
-    lfswrapper_dump_dir("/");
+  printf("\n");
+  sleep_ms(2000);
 
-    static const char fakeprogram[] = "for i = 1 to 10\n\
+  lfswrapper_lfs_mount();
+  lfswrapper_dump_dir("/");
+
+  static const char fakeprogram[] = "for i = 1 to 10\n\
 print i\n\
 next i\n\
 let x = 99\n\
 print x\n\
 print \"The end is nigh\"\n\
 print \"The end is here!\"";
-    ubasic_init(fakeprogram);
+  ubasic_init(fakeprogram);
 
-    do {
-      ubasic_run();
-    } while (!ubasic_finished());
+  do {
+    ubasic_run();
+  } while (!ubasic_finished());
 
-    // Never actually return/exit
-    while (true) {
-      check_if_should_enter_CMD_mode();
-      printf("Hello, world!\n");
-      sleep_ms(1000);
-    }
-    return 0;
-    // -------------------------
-    // Open the file
-    char *filename = argv[1];
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-      perror("Error opening file");
-      return 1;
-    }
-
-    // Allocate memory for the string
-    char *program = malloc(PROG_BUFFER_SIZE);
-    if (program == NULL) {
-      perror("Error allocating memory for string");
-      return 1;
-    }
-
-    // Read the file into the string
-    size_t program_size = 0; // Keep track of the size of the string
-    while (fgets(program + program_size, PROG_BUFFER_SIZE, file) != NULL) {
-      program_size += strlen(program + program_size);
-      program = realloc(program, program_size + PROG_BUFFER_SIZE);
-      if (program == NULL) {
-        perror("Error reallocating memory for string");
-        return 1;
-      }
-    }
-
-    // Close the file
-    fclose(file);
-
-    ubasic_init(program);
-
-    do {
-      ubasic_run();
-    } while (!ubasic_finished());
-
-    // Free the memory allocated for the string
-    free(program);
-
-    // Never actually return/exit
-    while (true) {
-      printf("Hello, world!\n");
-      sleep_ms(1000);
-    }
-    return 0;
+  // Never actually return/exit
+  while (true) {
+    check_if_should_enter_CMD_mode();
+    printf("Hello, world!\n");
+    sleep_ms(1000);
   }
+  return 0;
+  // -------------------------
+  // Open the file
+  char *filename = argv[1];
+  FILE *file = fopen(filename, "r");
+  if (file == NULL) {
+    perror("Error opening file");
+    return 1;
+  }
+
+  // Allocate memory for the string
+  char *program = malloc(PROG_BUFFER_SIZE);
+  if (program == NULL) {
+    perror("Error allocating memory for string");
+    return 1;
+  }
+
+  // Read the file into the string
+  size_t program_size = 0; // Keep track of the size of the string
+  while (fgets(program + program_size, PROG_BUFFER_SIZE, file) != NULL) {
+    program_size += strlen(program + program_size);
+    program = realloc(program, program_size + PROG_BUFFER_SIZE);
+    if (program == NULL) {
+      perror("Error reallocating memory for string");
+      return 1;
+    }
+  }
+
+  // Close the file
+  fclose(file);
+
+  ubasic_init(program);
+
+  do {
+    ubasic_run();
+  } while (!ubasic_finished());
+
+  // Free the memory allocated for the string
+  free(program);
+
+  // Never actually return/exit
+  while (true) {
+    printf("Hello, world!\n");
+    sleep_ms(1000);
+  }
+  return 0;
+}
