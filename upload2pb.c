@@ -39,7 +39,7 @@ void read_file_hex(const char *filename) {
     int c;
     while ((c = fgetc(file)) != EOF) {
         // Print the character in hex
-        printf("%02X ", c);
+        printf("%c %02X\n", c, c);
     }
 
     fclose(file);
