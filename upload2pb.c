@@ -1,8 +1,8 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <sys/stat.h>
-#include <fcntl.h>
+#include <unistd.h>
 
 /*
  * Compile with:
@@ -50,8 +50,8 @@ void read_file_hex(const char *filename) {
 
 static char *getLine(int fd, int echo) {
   const uint startLineLength = 8; // the linebuffer will automatically grow
-  const char eof = 255; // EOF in stdio.h -is -1, but getchar returns int 255 to
-                        // avoid blocking
+  // const char eof = 255; // EOF in stdio.h is -1, but getchar returns int 255
+  // to avoid blocking
 
   char *pStart = (char *)malloc(startLineLength);
   char *pPos = pStart;             // next character position
@@ -71,7 +71,7 @@ static char *getLine(int fd, int echo) {
       sts = read(fd, &c, 1);
     }
 
-    //c = fgetc(fp); // expect next character entry
+    // c = fgetc(fp); // expect next character entry
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     if (c == 0x03) { // CTRL-C
@@ -84,7 +84,8 @@ static char *getLine(int fd, int echo) {
       continue; // ignore
     }
 
-    if (c == eof || c == '\n') {
+    // if (c == eof || c == '\n') {
+    if (c == '\n') {
       break; // non blocking exit
     }
 
@@ -110,7 +111,6 @@ static char *getLine(int fd, int echo) {
   *pPos = '\0'; // set string end mark
   if (echo)
     printf("\n");
-  printf("getLine: %s\n", pStart);
   return pStart;
 }
 
@@ -138,16 +138,15 @@ int main(int argc, char *argv[]) {
   // fputc(0x03, fpout);
   write(pb, &ctrlc, 1);
   fsync(pb);
-  //   printf("CTRL-C 1...\n");
-  //   usleep(500000);
-  // fputc(0x03, fpout);
-  //   fwrite(&ctrlc, 1, 1, fpout);
-  //   printf("CTRL-C 1...\n");
   write(pb, &ctrlc, 1);
   fsync(pb);
-  // fflush(fpout);
   char *banner = getLine(pb, 1);
-  printf("R: %s\n", banner);
+  if (strcmp(banner, "PiccoloBASIC CMD Mode") != 0) {
+    printf("Error entering CMD mode.\n");
+    free(banner);
+    close(pb);
+    return 1;
+  }
   free(banner);
   // read_file_hex(argv[1]);
   close(pb);
