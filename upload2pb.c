@@ -124,6 +124,7 @@ int main(int argc, char *argv[]) {
     printf("Device opened...\n");
     // Send CTRL-C twice
     fputc(0x03, fpout);
+    fflush(fpout);
     fputc(0x03, fpout);
     fflush(fpout);
     char *banner = getLine(fpout, 1);
