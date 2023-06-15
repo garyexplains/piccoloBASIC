@@ -125,9 +125,9 @@ int main(int argc, char *argv[]) {
     fputc(0x03, fpout);
 
     char *banner = getLine(fpout, 0);
-    print("R: %s\n", banner);
+    printf("R: %s\n", banner);
     free(banner);
-    //read_file_hex(argv[1]);
+    // read_file_hex(argv[1]);
 
     return 0;
 }
