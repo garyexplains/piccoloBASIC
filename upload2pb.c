@@ -65,10 +65,11 @@ static char *getLine(int fd, int echo) {
 
   while (1) {
 
-    while(read(fd, &c, 1)!=0) {
-        usleep(500);
+    int sts = read(fd, &c, 1);
+    while (sts==0) {
+      usleep(500);
+      sts = read(fd, &c, 1);
     }
-    
 
           printf("%x/", c);
 
