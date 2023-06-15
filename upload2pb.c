@@ -104,7 +104,7 @@ static char *getLine(int fd, int echo) {
   *pPos = '\0'; // set string end mark
   if (echo)
     printf("\n");
-printf("getLine: %s\n", pStart);
+  printf("getLine: %s\n", pStart);
   return pStart;
 }
 
