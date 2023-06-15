@@ -7,4 +7,4 @@ int lfswrapper_dir_seek(int dir, lfs_off_t off);
 lfs_soff_t lfswrapper_dir_tell(int dir);
 int lfswrapper_dir_rewind(int dir);
 int lfswrapper_dir_close(int dir);
-void lfswrapper_dump_dir(void);
+void lfswrapper_dump_dir(char *);
