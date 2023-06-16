@@ -215,7 +215,7 @@ int main(int argc, char *argv[]) {
   free(banner);
   printf("Entered PiccoloBASIC CMD Mode.\n");
   char hack[16];
-  sprintf(hack, "ls\n");
+  sprintf(hack, "ls\r\n");
   printf("%s\n", hack);
   send_cmd(pb, hack);
   char *l1 = getLine(pb, 1);
