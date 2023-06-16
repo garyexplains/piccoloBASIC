@@ -117,22 +117,22 @@ static char *getLine(int fd, int echo) {
     //   }
     //   return NULL;
     // }
-    if (c == eof) {
+    if ((char) c == eof) {
       printf("eof\n");
       break; // Done
     }
 
-    if (c == -1) {
+    if ((char) c == -1) {
       printf("-1\n");
       break; // Done
     }
 
-    if (c == '\n') {
+    if ((char) c == '\n') {
       printf("LF\n");
       break; // Done
     }
 
-    if (c == '\r') {
+    if ((char) c == '\r') {
       printf("CR\n");
       usleep(200000);
       int sts = read(fd, &lookahead, 1);
@@ -153,6 +153,7 @@ static char *getLine(int fd, int echo) {
       }
     }
 
+printf("Add: %02x\n", (char) c);
     if (--len == 0) { // allow larger buffer
       len = maxLen;
       // double the current line buffer size
@@ -167,9 +168,9 @@ static char *getLine(int fd, int echo) {
     }
 
     // stop reading if lineBreak character entered
-    if ((*pPos++ = c) == '\n') {
-      break;
-    }
+    // if ((*pPos++ = c) == '\n') {
+    //   break;
+    // }
   }
 
   *pPos = '\0'; // set string end mark
