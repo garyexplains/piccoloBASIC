@@ -4,6 +4,15 @@ import serial
 import sys
 import os
 
+def waitforok(serl):
+    while 1:
+        r=serl.readline()
+        rstr = str(r, 'ascii')
+        if len(rstr) == 0:
+            continue
+        if "+OK" in rstr:
+            break
+
 print("PiccoloBASIC uploader.")
 
 if len(sys.argv)!=3:
@@ -46,10 +55,5 @@ cmd = "upload " + sys.argv[1] + " " + str(file_stats.st_size) + "\n"
 packet = bytearray(cmd, 'ascii')
 ser.write(packet)
 
-# Wait to enter CMD mode
-while 1:
-        r=ser.readline()
-        rstr = str(r)
-        if len(rstr) == 0:
-            continue
-        print(rstr)
+waitforok(ser)
+
