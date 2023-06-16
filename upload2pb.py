@@ -17,6 +17,22 @@ packet.append(0x03)
 
 ser.write(packet)
 
+# Wait to enter CMD mode
 while 1:
         x=ser.readline()
+        if len(x) == 0:
+            continue
+        print(x)
+        if "+OK PiccoloBASIC CMD Mode" in x:
+            break
+
+cmd = "ls\n"
+packet = string.encode(cmd);
+ser.write(packet)
+
+# Wait to enter CMD mode
+while 1:
+        x=ser.readline()
+        if len(x) == 0:
+            continue
         print(x)
