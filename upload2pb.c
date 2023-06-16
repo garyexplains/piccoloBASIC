@@ -50,7 +50,7 @@ void doupload(int fd, const char *filename) {
   while ((c = fgetc(file)) != EOF) {
     // Print the character in hex
     send_cmd(fd, buf);
-    printf("%s", buf);
+    printf("%s\n", buf);
   }
 
   fclose(file);
@@ -181,7 +181,7 @@ int main(int argc, char *argv[]) {
   } else {
     char uploadcmd[128];
     sprintf(uploadcmd,"upload %s %d\r", argv[1], uploadfilesize);
-    printf("%s", uploadcmd);
+    printf("%s\n", uploadcmd);
     send_cmd(pb, uploadcmd);
     doupload(pb, argv[1]);
   }
