@@ -21,13 +21,14 @@ ser.write(packet)
 while 1:
         x=ser.readline()
         if len(x) == 0:
+            print(len(x), x, "should be zero")
             continue
         print(x)
         if "+OK PiccoloBASIC CMD Mode" in x:
             break
 
 cmd = "ls\n"
-packet = string.encode(cmd);
+packet = string.encode(cmd)
 ser.write(packet)
 
 # Wait to enter CMD mode
