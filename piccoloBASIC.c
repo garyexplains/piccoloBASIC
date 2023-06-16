@@ -239,7 +239,7 @@ int main(int argc, char *argv[]) {
   
   // Free the memory allocated for the program
   free(program);
-  
+
 //   static const char fakeprogram[] = "for i = 1 to 10\n\
 // print i\n\
 // next i\n\
@@ -260,51 +260,6 @@ int main(int argc, char *argv[]) {
     sleep_ms(500);
     printf("+\r");
     sleep_ms(500);
-  }
-  return 0;
-  // -------------------------
-  // Open the file
-  char *filename = argv[1];
-  FILE *file = fopen(filename, "r");
-  if (file == NULL) {
-    perror("Error opening file");
-    return 1;
-  }
-
-  // Allocate memory for the string
-  char *program = malloc(PROG_BUFFER_SIZE);
-  if (program == NULL) {
-    perror("Error allocating memory for string");
-    return 1;
-  }
-
-  // Read the file into the string
-  size_t program_size = 0; // Keep track of the size of the string
-  while (fgets(program + program_size, PROG_BUFFER_SIZE, file) != NULL) {
-    program_size += strlen(program + program_size);
-    program = realloc(program, program_size + PROG_BUFFER_SIZE);
-    if (program == NULL) {
-      perror("Error reallocating memory for string");
-      return 1;
-    }
-  }
-
-  // Close the file
-  fclose(file);
-
-  ubasic_init(program);
-
-  do {
-    ubasic_run();
-  } while (!ubasic_finished());
-
-  // Free the memory allocated for the string
-  free(program);
-
-  // Never actually return/exit
-  while (true) {
-    printf("Hello, world!\n");
-    sleep_ms(1000);
   }
   return 0;
 }
