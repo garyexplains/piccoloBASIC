@@ -172,9 +172,11 @@ int enter_CMD_mode() {
 
     if (token != NULL) {
       if (strcmp(token, "exit") == 0) {
-        if(needsreboot)
+        if (needsreboot)
           watchdog_reboot(0, SRAM_END, 0);
         done = 1;
+      } else if (strcmp(token, "reboot") == 0) {
+        watchdog_reboot(0, SRAM_END, 0);
       } else if (strcmp(token, "ls") == 0) {
         printf("+OK\n");
         lfswrapper_dump_dir(cwd);
@@ -248,10 +250,10 @@ int main(int argc, char *argv[]) {
     program[proglen] = 0;
     lfswrapper_file_close();
   }
-  // ubasic_init(program);
-  // do {
-  //   ubasic_run();
-  // } while (!ubasic_finished());
+  ubasic_init(program);
+  do {
+    ubasic_run();
+  } while (!ubasic_finished());
 
   // Free the memory allocated for the program
   free(program);
