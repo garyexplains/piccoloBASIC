@@ -231,6 +231,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+printf("main.bas %d\n", lfswrapper_get_file_size("main.bas"));
+
   lfswrapper_file_open("main.bas", LFS_O_RDONLY);
   int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
   program[proglen] = 0;
