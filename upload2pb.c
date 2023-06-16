@@ -78,8 +78,7 @@ int get_filesize(char *file_name)
 
 static char *getLine(int fd, int echo) {
   const uint startLineLength = 8; // the linebuffer will automatically grow
-  // const char eof = 255; // EOF in stdio.h is -1, but getchar returns int 255
-  // to avoid blocking
+  const char eof = 255; // EOF in stdio.h is -1, but getchar returns int 255 to avoid blocking
 
   char *pStart = (char *)malloc(startLineLength);
   char *pPos = pStart;             // next character position
