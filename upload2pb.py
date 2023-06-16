@@ -3,10 +3,10 @@ import time
 import serial
 import sys
 
-if len(sys.argv!=3):
+if len(sys.argv)!=3:
     print("Usage: " + sys.argv[0] + "<filename> <device>");
     print("eg: " + sys.argv[0] + " main.bas /dev/ttyACM0");
-    
+
 ser = serial.Serial(
         port='/dev/ttyACM0',
         baudrate = 9600,
