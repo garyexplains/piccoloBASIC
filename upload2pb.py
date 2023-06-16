@@ -29,7 +29,7 @@ while 1:
             break
 
 cmd = "ls\n"
-packet = string.encode(cmd)
+packet = bytearray(cmd)
 ser.write(packet)
 
 # Wait to enter CMD mode
