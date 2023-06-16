@@ -166,7 +166,7 @@ printf("Add: %02x\n", (char) c);
       pPos = pNew + (pPos - pStart);
       pStart = pNew;
     }
-
+  pPos++;
     // stop reading if lineBreak character entered
     // if ((*pPos++ = c) == '\n') {
     //   break;
