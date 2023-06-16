@@ -220,16 +220,16 @@ int main(int argc, char *argv[]) {
   //printf("%d\n", send_cmd(pb, hack));
 
   char cc = 'l';
-  write(pb, &cc, 1);
+  printf("%d\n", write(pb, &cc, 1));
   fsync(pb);
   cc = 's';
-  write(pb, &cc, 1);
+  printf("%d\n", write(pb, &cc, 1));
   fsync(pb);
   cc = '\r';
-  write(pb, &cc, 1);
+  printf("%d\n", write(pb, &cc, 1));
   fsync(pb);
   cc = '\n';
-  write(pb, &cc, 1);
+  printf("%d\n", write(pb, &cc, 1));
   fsync(pb);
 
   char *l1 = getLine(pb, 1);
