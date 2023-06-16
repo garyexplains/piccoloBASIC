@@ -50,10 +50,17 @@ while 1:
         if "+OK PiccoloBASIC CMD Mode" in rstr:
             break
 print("Entered CMD mode.")
-    
+print("Starting upload of " + sys.argv[1] + " (" + str(file_stats.st_size) + " bytes)")
+
 cmd = "upload " + sys.argv[1] + " " + str(file_stats.st_size) + "\n"
 packet = bytearray(cmd, 'ascii')
 ser.write(packet)
 
 waitforok(ser)
 
+with open(sys.argv[1], 'rb') as f:
+    byte = f.read(1)
+    while byte != b'':
+        up = "" + ord(byte) + "\n"
+        print(up)
+        byte = f.read(1)
