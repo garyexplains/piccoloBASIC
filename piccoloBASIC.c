@@ -139,6 +139,7 @@ int doupload(char *uploadfilename, int uploadfilesize) {
   while(count < uploadfilesize) {
     char *result = getLine(1);
     int b = atoi(result);
+    printf("%d - %d %x\n", count, b, b);
     lfswrapper_file_write(&b, 1);
     count++;
     free(result);
