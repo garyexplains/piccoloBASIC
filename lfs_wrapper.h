@@ -11,5 +11,5 @@ void lfswrapper_dump_dir(char *);
 int lfswrapper_file_open(char *n, int flags);
 int lfswrapper_file_close();
 int lfswrapper_file_write(const void *buffer, int sz);
-int lfswrapper_file_read(const void *buffer, int sz);
+int lfswrapper_file_read(void *buffer, int sz);
 int lfswrapper_get_file_size(char *path);
