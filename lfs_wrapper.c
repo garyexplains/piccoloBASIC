@@ -150,6 +150,7 @@ int lfswrapper_get_file_size(char *path) {
     if(sts < 0) return -1;
     return info.size;
 }
+
 void lfswrapper_dump_dir(char *path) {
 	// display each directory entry name
 	printf("%s\n", path);
@@ -161,5 +162,4 @@ void lfswrapper_dump_dir(char *path) {
 	while (lfswrapper_dir_read(dir, &info) > 0)
         	printf("%s\n", info.name);
 	lfswrapper_dir_close(dir);
-}
 }
