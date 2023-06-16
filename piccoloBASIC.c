@@ -215,9 +215,12 @@ int check_if_should_enter_CMD_mode() {
 int main(int argc, char *argv[]) {
   stdio_init_all();
 
-  printf("\n");
+  printf("...\n");
   sleep_ms(2000);
-
+  printf("...\n");
+  sleep_ms(2000);
+  stdio_flush();
+  
   lfswrapper_lfs_mount();
 
 // Allocate memory for the string
