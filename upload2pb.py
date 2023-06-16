@@ -24,7 +24,7 @@ while 1:
         if len(rstr) == 0:
             print(len(rstr), rstr, "should be zero")
             continue
-        print(x, rstr)
+        print(r, rstr)
         if "+OK PiccoloBASIC CMD Mode" in rstr:
             break
 
