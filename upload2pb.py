@@ -38,7 +38,6 @@ while 1:
         rstr = str(r, 'ascii')
         if len(rstr) == 0:
             continue
-        print(r, rstr)
         if "+OK PiccoloBASIC CMD Mode" in rstr:
             break
 print("Entered CMD mode.")
@@ -53,4 +52,4 @@ while 1:
         rstr = str(r)
         if len(rstr) == 0:
             continue
-        print(x)
+        print(rstr)
