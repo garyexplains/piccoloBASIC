@@ -15,6 +15,13 @@
 */
 int lookahead = -1;
 
+void print_hex(char *str) {
+    for (int i = 0; i < strlen(str); i++) {
+        printf("%02x ", str[i]);
+    }
+}
+
+
 char *file2buffer(const char *filename) {
   FILE *file = fopen(filename, "rb");
   if (file == NULL) {
@@ -197,6 +204,7 @@ int main(int argc, char *argv[]) {
     return 1;
   } else if (strcmp(banner, "PiccoloBASIC CMD Mode") != 0) {
     printf("Error entering CMD mode. R: %s***\n", banner);
+    print_hex(banner);
     free(banner);
     close(pb);
     return 1;
