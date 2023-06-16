@@ -108,6 +108,7 @@ static char *getLine(int fd, int echo) {
         sts = read(fd, &c, 1);
       }
     }
+    print("IN: %02x\n", c);
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     // if (c == 0x03) { // CTRL-C
