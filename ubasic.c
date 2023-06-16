@@ -134,6 +134,11 @@ void ubasic_init(const char *program) {
     string_variables[i] = NULL;
   }
 }
+char ubasic_exit_buffer[64];
+char *ubasic_exit_static_itoa(int e) {
+  sprintf(ubasic_exit_buffer, "%d", e);
+  return ubasic_exit_buffer;
+}
 void ubasic_exit(int errline, char *errmsg, char *errp) {
   int lessoften = 0;
   // Never actually return/exit
@@ -141,7 +146,7 @@ void ubasic_exit(int errline, char *errmsg, char *errp) {
     check_if_should_enter_CMD_mode();
     sleep_ms(500);
     if( (lessoften++ % 10) == 0)
-      printf("Error on line %d - %s (%d)\n", errline, errmsg, errp);
+      printf("Error on line %d - %s (%s)\n", errline, errmsg, errp);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -161,7 +166,7 @@ static void accept(int token) {
     DEBUG_PRINTF("Token not what was expected (expected %d, got %d)\n", token,
                  tokenizer_token());
     tokenizer_error_print(gline_number - 1, "Unexpected token");
-    ubasic_exit(gline_number - 1, "Unexpected token", "");
+    ubasic_exit(gline_number - 1, "Unexpected token", ubasic_exit_static_itoa(token));
   }
   DEBUG_PRINTF("Expected %d, got it\n", token);
   tokenizer_next();
@@ -801,7 +806,7 @@ static VARIABLE_TYPE builtin(int token, int p) {
 
   if (token <= TOKENIZER_BUILTINS__START || token > TOKENIZER_BUILTINS__END) {
     printf("Error: Invalid builtin function %d (%d)\n", token, p);
-    ubasic_exit(gline_number - 1, "Invalid builtin function", "");
+    ubasic_exit(gline_number - 1, "Invalid builtin function", ubasic_exit_static_itoa(token));
   }
 
   switch (token) {
@@ -834,7 +839,7 @@ static VARFLOAT_TYPE builtinf(int token, VARFLOAT_TYPE p) {
 
   if (token <= TOKENIZER_BUILTINSF__START || token > TOKENIZER_BUILTINSF__END) {
     printf("Error: Invalid builtinf function %d (%f)\n", token, p);
-    ubasic_exit(gline_number - 1, "Invalid builtinf function", "");
+    ubasic_exit(gline_number - 1, "Invalid builtinf function", ubasic_exit_static_itoa(token));
   }
 
   switch (token) {
@@ -1142,7 +1147,7 @@ static void for_statement(void) {
   } else {
     printf("Error: On line %d, for stack depth exceeded (max: %d)\n",
            gline_number - 1, MAX_FOR_STACK_DEPTH);
-    ubasic_exit(gline_number - 1, "for stack depth exceeded", "");
+    ubasic_exit(gline_number - 1, "for stack depth exceeded", ubasic_exit_static_itoa(MAX_FOR_STACK_DEPTH));
   }
 }
 /*---------------------------------------------------------------------------*/
