@@ -6,6 +6,7 @@ import sys
 if len(sys.argv)!=3:
     print("Usage: " + sys.argv[0] + "<filename> <device>");
     print("eg: " + sys.argv[0] + " main.bas /dev/ttyACM0");
+    exit(1)
 
 ser = serial.Serial(
         port='/dev/ttyACM0',
@@ -32,6 +33,8 @@ while 1:
         if "+OK PiccoloBASIC CMD Mode" in rstr:
             break
 print("Entered CMD mode.")
+print("Uploading " + sys.argv[1] + " to piccoloBASIC via " + sys.argv[2])
+
 cmd = "ls\n"
 packet = bytearray(cmd, 'ascii')
 ser.write(packet)
