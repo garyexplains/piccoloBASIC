@@ -120,14 +120,17 @@ static char *getLine(int fd, int echo) {
     //   return NULL;
     // }
     if ((char) c == eof) {
+      printf("eof\n");
       break; // Done
     }
 
     if ((char) c == -1) {
+      printf("-1\n");
       break; // Done
     }
 
     if ((char) c == '\n') {
+            printf("LF\n");
       break; // Done
     }
 
@@ -213,7 +216,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   printf("BANNER:%s\n", banner);
-    print_hex(banner);
+  print_hex(banner);
   free(banner);
   printf("Entered PiccoloBASIC CMD Mode.\n");
   char hack[16];
