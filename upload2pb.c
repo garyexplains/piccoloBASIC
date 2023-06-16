@@ -34,7 +34,9 @@ char *file2buffer(const char *filename) {
   return buffer;
 }
 
-void doupload(const char *filename) {
+void doupload(int fd, const char *filename) {
+  char buf[16];
+
   FILE *file = fopen(filename, "r");
   if (file == NULL) {
     return;
@@ -43,7 +45,9 @@ void doupload(const char *filename) {
   int c;
   while ((c = fgetc(file)) != EOF) {
     // Print the character in hex
-    printf("%d\n", c);
+    sprintf(buf, "%d\n", c);
+    send_cmd(fd, buf);
+    printf("%s", buf);
   }
 
   fclose(file);
@@ -179,7 +183,7 @@ int main(int argc, char *argv[]) {
     char uploadcmd[128];
     sprintf(uploadcmd,"upload %s %d\r", argv[1], uploadfilesize);
     send_cmd(pb, uploadcmd);
-    doupload(argv[1]);
+    doupload(pb, argv[1]);
   }
   send_cmd(pb, "exit\r");
   // read_file_hex(argv[1]);
