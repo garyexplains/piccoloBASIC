@@ -186,7 +186,7 @@ int main(int argc, char *argv[]) {
 
   printf("Uploading %s to piccoloBASIC via %s\n", argv[1], argv[2]);
 
-  pb = open(argv[2], O_RDWR | O_NOCTTY | O_NONBLOCK);
+  pb = open(argv[2], O_RDWR | O_NOCTTY | O_NONBLOCK | O_SYNC);
   if (pb == -1) {
     printf("Couldn't open USB/serial port to piccoloBASIC!\n");
     return 1;
