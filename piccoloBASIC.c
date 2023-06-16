@@ -238,11 +238,11 @@ printf("main.bas %d\n", lfswrapper_get_file_size("main.bas"));
   int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
   program[proglen] = 0;
   lfswrapper_file_close();
-printf("PROG (%d):\n%s", proglen, program);
-  ubasic_init(program);
-  do {
-    ubasic_run();
-  } while (!ubasic_finished());
+// printf("PROG (%d):\n%s", proglen, program);
+//   ubasic_init(program);
+//   do {
+//     ubasic_run();
+//   } while (!ubasic_finished());
   
   // Free the memory allocated for the program
   free(program);
