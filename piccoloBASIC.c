@@ -135,15 +135,19 @@ static char *getLine(int echo) {
 
 int doupload(char *uploadfilename, int uploadfilesize) {
   int count = 0;
+  char *program = malloc(PROG_BUFFER_SIZE);
+  if (program == NULL) {
+    return -1;
+  }
+
   lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT | LFS_O_TRUNC);
   while(count < uploadfilesize) {
     char *result = getLine(1);
     int b = atoi(result);
-    //printf("OK %d - %d %x\n", count, b, b);
-    lfswrapper_file_write(&b, 1);
-    count++;
+    program[count++] = (char) b;
     free(result);
   }
+  lfswrapper_file_write(program, uploadfilesize);
   lfswrapper_file_close();
   return count;
 }
@@ -183,6 +187,10 @@ int enter_CMD_mode() {
           doupload(uploadfilename, uploadfilesize);
         }
         free(uploadfilename);
+      }
+      if (strcmp(token, "rm") == 0) { // upload main.bas 432
+        token = strtok(NULL, " "); // filename
+        lfswrapper_delete_file(token);
       }
       if (strcmp(token, "cd") == 0) {
         token = strtok(NULL, " ");
