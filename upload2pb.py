@@ -68,7 +68,7 @@ with open(sys.argv[1], 'rb') as f:
         waitforok(ser)
         byte = f.read(1)
 
-cmd = "exit"
+cmd = "exit\n"
 packet = bytearray(cmd, 'ascii')
 ser.write(packet)
 

@@ -52,6 +52,7 @@
  */
 char cwd[MAX_PATH_LEN];
 int lookahead = -1;
+int needsreboot = 0;
 
 static char *getLine(int echo) {
   const uint startLineLength =
@@ -170,6 +171,8 @@ int enter_CMD_mode() {
 
     if (token != NULL) {
       if (strcmp(token, "exit") == 0) {
+        if(needsreboot)
+          watchdog_reboot(0, SRAM_END, 10);
         done = 1;
       } else if (strcmp(token, "ls") == 0) {
         printf("+OK\n");
@@ -185,6 +188,7 @@ int enter_CMD_mode() {
           doupload(uploadfilename, uploadfilesize);
         }
         free(uploadfilename);
+        needsreboot = 1;
       } else if (strcmp(token, "rm") == 0) { // upload main.bas 432
         printf("+OK\n");
         token = strtok(NULL, " "); // filename
