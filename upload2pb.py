@@ -19,12 +19,13 @@ ser.write(packet)
 
 # Wait to enter CMD mode
 while 1:
-        x=ser.readline()
-        if len(x) == 0:
-            print(len(x), x, "should be zero")
+        r=ser.readline()
+        rstr = str(r)
+        if len(rstr) == 0:
+            print(len(rstr), rstr, "should be zero")
             continue
-        print(x)
-        if "+OK PiccoloBASIC CMD Mode" in x:
+        print(x, rstr)
+        if "+OK PiccoloBASIC CMD Mode" in rstr:
             break
 
 cmd = "ls\n"
@@ -34,6 +35,8 @@ ser.write(packet)
 # Wait to enter CMD mode
 while 1:
         x=ser.readline()
-        if len(x) == 0:
+        r=ser.readline()
+        rstr = str(r)
+        if len(rstr) == 0:
             continue
         print(x)
