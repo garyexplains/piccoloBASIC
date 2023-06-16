@@ -212,6 +212,7 @@ int main(int argc, char *argv[]) {
     close(pb);
     return 1;
   }
+  printf("BANNER:%s\n", banner);
     print_hex(banner);
   free(banner);
   printf("Entered PiccoloBASIC CMD Mode.\n");
