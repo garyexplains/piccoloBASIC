@@ -32,12 +32,12 @@
  *
  */
 
-#include <stdio.h>  /* printf() */
-#include <stdlib.h> /* exit() */
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <unistd.h> /* sleep() */
-#include <time.h>   /* time() */
-#include <math.h>   /* sqrt() etc*/
+#include <unistd.h>
+#include <time.h>
+#include <math.h>
 #include <limits.h>
 
 #include "pico/stdlib.h"
@@ -134,6 +134,13 @@ void ubasic_init(const char *program) {
     string_variables[i] = NULL;
   }
 }
+void ubasic_exit(int err) {
+  // Never actually return/exit
+  while (true) {
+    check_if_should_enter_CMD_mode();
+    sleep_ms(500);
+  }
+}
 /*---------------------------------------------------------------------------*/
 void ubasic_init_peek_poke(const char *program, peek_func peek,
                            poke_func poke) {
@@ -151,7 +158,7 @@ static void accept(int token) {
     DEBUG_PRINTF("Token not what was expected (expected %d, got %d)\n", token,
                  tokenizer_token());
     tokenizer_error_print(gline_number - 1, "Unexpected token");
-    exit(-1);
+    ubasic_exit(-1);
   }
   DEBUG_PRINTF("Expected %d, got it\n", token);
   tokenizer_next();
@@ -791,7 +798,7 @@ static VARIABLE_TYPE builtin(int token, int p) {
 
   if (token <= TOKENIZER_BUILTINS__START || token > TOKENIZER_BUILTINS__END) {
     printf("Error: Invalid builtin function %d (%d)\n", token, p);
-    exit(-1);
+    ubasic_exit(-1);
   }
 
   switch (token) {
@@ -824,7 +831,7 @@ static VARFLOAT_TYPE builtinf(int token, VARFLOAT_TYPE p) {
 
   if (token <= TOKENIZER_BUILTINSF__START || token > TOKENIZER_BUILTINSF__END) {
     printf("Error: Invalid builtinf function %d (%f)\n", token, p);
-    exit(-1);
+    ubasic_exit(-1);
   }
 
   switch (token) {
@@ -868,7 +875,7 @@ static VARSTRING_TYPE builtinstr(int token, VARSTRING_TYPE p) {
 
   // if (token <= TOKENIZER_BUILTINSF__START || token > TOKENIZER_BUILTINSF__END) {
   //   printf("Error: Invalid builtinf function %d (%f)\n", token, p);
-  //   exit(-1);
+  //   ubasic_exit(-1);
   // }
 
   switch (token) {
@@ -1070,7 +1077,7 @@ static void gosub_statement(void) {
     jump_label(l);
   } else {
     printf("Error: gosub stack exhausted\n");
-    exit(-1);
+    ubasic_exit(-1);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -1081,7 +1088,7 @@ static void return_statement(void) {
     jump_linenum(gosub_stack[gosub_stack_ptr]);
   } else {
     printf("Error: No matching return on line %d\n", gline_number - 1);
-    exit(-1);
+    ubasic_exit(-1);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -1102,7 +1109,7 @@ static void next_statement(void) {
   } else {
     printf("Error: On line %d, unexpected next, no matching for\n",
            gline_number - 1);
-    exit(-1);
+    ubasic_exit(-1);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -1132,7 +1139,7 @@ static void for_statement(void) {
   } else {
     printf("Error: On line %d, for stack depth exceeded (max: %d)\n",
            gline_number - 1, MAX_FOR_STACK_DEPTH);
-    exit(-1);
+    ubasic_exit(-1);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -1210,7 +1217,7 @@ static void push_statement(void) {
     int_stack_ptr++;
   } else {
     printf("Error: On line %d, integer stack exhausted\n", gline_number - 1);
-    exit(-1);
+    ubasic_exit(-1);
   }
   DEBUG_PRINTF("Exit push_statement\n");
 }
@@ -1230,7 +1237,7 @@ static void pop_statement(void) {
       DEBUG_PRINTF("pop_statement: assign %d to %d\n", variables[var], var);
     } else {
       printf("Error: On line %d, integer stack is empty\n", gline_number - 1);
-      exit(-1);
+      ubasic_exit(-1);
     }
   }
   if (tokenizer_token() == TOKENIZER_CR)
@@ -1316,7 +1323,7 @@ static void statement(void) {
   default:
     printf("Error: On line %d, unknown statement(): %d\n", gline_number - 1,
            token);
-    exit(-1);
+    ubasic_exit(-1);
   }
 }
 /*---------------------------------------------------------------------------*/
