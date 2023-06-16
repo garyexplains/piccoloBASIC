@@ -20,7 +20,7 @@ ser.write(packet)
 # Wait to enter CMD mode
 while 1:
         r=ser.readline()
-        rstr = str(r)
+        rstr = str(r, 'ascii')
         if len(rstr) == 0:
             print(len(rstr), rstr, "should be zero")
             continue
