@@ -126,10 +126,12 @@ static char *getLine(int fd, int echo) {
     }
 
     if (c == '\n') {
+      printf("LF\n");
       break; // Done
     }
 
     if (c == '\r') {
+      printf("CR\n");
       usleep(200000);
       int sts = read(fd, &lookahead, 1);
       if (sts == -1) {
