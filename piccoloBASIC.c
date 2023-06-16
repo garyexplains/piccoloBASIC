@@ -46,7 +46,12 @@
 #define MAX_CMD_LINE 100
 #define MAX_PATH_LEN 100
 
+/*
+ * Eek! Globals!
+*/
 char cwd[MAX_PATH_LEN];
+int lookahead = -1;
+
 
 static char *getLine(int echo) {
   const uint startLineLength =
@@ -59,7 +64,6 @@ static char *getLine(int echo) {
   size_t maxLen = startLineLength; // current max buffer size
   size_t len = maxLen;             // current max length
   int c;
-  int lookahead = -1;
 
   if (!pStart) {
     return NULL; // out of memory or dysfunctional heap
