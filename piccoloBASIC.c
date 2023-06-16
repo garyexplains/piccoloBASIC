@@ -217,10 +217,11 @@ int main(int argc, char *argv[]) {
 
   printf("...\n");
   sleep_ms(2000);
+  stdio_flush();
   printf("...\n");
   sleep_ms(2000);
   stdio_flush();
-  
+
   lfswrapper_lfs_mount();
 
 // Allocate memory for the string
@@ -234,7 +235,7 @@ int main(int argc, char *argv[]) {
   int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
   program[proglen] = 0;
   lfswrapper_file_close();
-printf("%s", program);
+printf("PROG (%d):\n%s", proglen, program);
   ubasic_init(program);
   do {
     ubasic_run();
