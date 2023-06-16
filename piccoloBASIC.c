@@ -219,20 +219,39 @@ int main(int argc, char *argv[]) {
   sleep_ms(2000);
 
   lfswrapper_lfs_mount();
-  lfswrapper_dump_dir("/");
 
-  static const char fakeprogram[] = "for i = 1 to 10\n\
-print i\n\
-next i\n\
-let x = 99\n\
-print x\n\
-print \"The end is nigh\"\n\
-print \"The end is here!\"";
-  ubasic_init(fakeprogram);
+// Allocate memory for the string
+  char *program = malloc(PROG_BUFFER_SIZE);
+  if (program == NULL) {
+    perror("Error allocating memory for string");
+    return 1;
+  }
 
+  lfswrapper_file_open("main.bas", LFS_O_RDONLY);
+  int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
+  program[proglen] = 0;
+  lfswrapper_file_close();
+
+  ubasic_init(program);
   do {
     ubasic_run();
   } while (!ubasic_finished());
+  
+  // Free the memory allocated for the program
+  free(program);
+  
+//   static const char fakeprogram[] = "for i = 1 to 10\n\
+// print i\n\
+// next i\n\
+// let x = 99\n\
+// print x\n\
+// print \"The end is nigh\"\n\
+// print \"The end is here!\"";
+//   ubasic_init(fakeprogram);
+
+//   do {
+//     ubasic_run();
+//   } while (!ubasic_finished());
 
   // Never actually return/exit
   while (true) {

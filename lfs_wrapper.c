@@ -140,6 +140,10 @@ int lfswrapper_file_write(const void *buffer, int sz) {
     return (int) lfs_file_write(&lfs, &current_lfs_file, buffer, (lfs_size_t) sz);
 }
 
+int lfswrapper_file_read(const void *buffer, int sz) {
+    return (int) lfs_file_read(&lfs, &current_lfs_file, buffer, sz);
+}
+
 void lfswrapper_dump_dir(char *path) {
 	// display each directory entry name
 	printf("%s\n", path);
