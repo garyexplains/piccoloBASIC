@@ -176,12 +176,10 @@ int enter_CMD_mode() {
       if (strcmp(token, "exit") == 0) {
         printf("+OK\n");
         done = 1;
-      }
-      if (strcmp(token, "ls") == 0) {
+      } else if (strcmp(token, "ls") == 0) {
         printf("+OK\n");
         lfswrapper_dump_dir(cwd);
-      }
-      if (strcmp(token, "upload") == 0) { // upload main.bas 432
+      } else if (strcmp(token, "upload") == 0) { // upload main.bas 432
         printf("+OK\n");
         token = strtok(NULL, " "); // filename
         char *uploadfilename = malloc(strlen(token)+1);
@@ -192,13 +190,11 @@ int enter_CMD_mode() {
           doupload(uploadfilename, uploadfilesize);
         }
         free(uploadfilename);
-      }
-      if (strcmp(token, "rm") == 0) { // upload main.bas 432
+      } else if (strcmp(token, "rm") == 0) { // upload main.bas 432
         printf("+OK\n");
         token = strtok(NULL, " "); // filename
         lfswrapper_delete_file(token);
-      }
-      if (strcmp(token, "cd") == 0) {
+      } else if (strcmp(token, "cd") == 0) {
         printf("+OK\n");
         token = strtok(NULL, " ");
         if ((strcmp(token, "..") == 0) || (strcmp(token, "/") == 0)) {
