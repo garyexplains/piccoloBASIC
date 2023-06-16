@@ -248,10 +248,10 @@ int main(int argc, char *argv[]) {
     program[proglen] = 0;
     lfswrapper_file_close();
   }
-  ubasic_init(program);
-  do {
-    ubasic_run();
-  } while (!ubasic_finished());
+  // ubasic_init(program);
+  // do {
+  //   ubasic_run();
+  // } while (!ubasic_finished());
 
   // Free the memory allocated for the program
   free(program);
