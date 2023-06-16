@@ -10,6 +10,11 @@
  * gcc -o upload2pb upload2pb.c
  */
 
+/*
+ * Eek! Globals!
+*/
+int lookahead = -1;
+
 char *file2buffer(const char *filename) {
   FILE *file = fopen(filename, "rb");
   if (file == NULL) {
@@ -87,29 +92,51 @@ static char *getLine(int fd, int echo) {
   }
 
   while (1) {
-
-    int sts = read(fd, &c, 1);
-    while (sts == -1) {
-      usleep(500);
-      sts = read(fd, &c, 1);
+    if(lookahead >= 0) {
+      c = lookahead;
+      lookahead = -1;
+    } else {
+      int sts = read(fd, &c, 1);
+      while (sts == -1) {
+        usleep(500);
+        sts = read(fd, &c, 1);
+      }
     }
-
-    // c = fgetc(fp); // expect next character entry
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
-    if (c == 0x03) { // CTRL-C
-      if (!pStart) {
-        free(pStart);
-      }
-      return NULL;
-    }
-    if (c == '\r') {
-      continue; // ignore
+    // if (c == 0x03) { // CTRL-C
+    //   if (!pStart) {
+    //     free(pStart);
+    //   }
+    //   return NULL;
+    // }
+    if (c == eof) {
+      break; // Done
     }
 
-    // if (c == eof || c == '\n') {
+    if (c == -1) {
+      break; // Done
+    }
+
     if (c == '\n') {
-      break; // non blocking exit
+      break; // Done
+    }
+
+    if (c == '\r') {
+      usleep(200000);
+      int sts = read(fd, &lookahead, 1);
+      if (sts == -1) {
+        // Assume \r was the end of the line
+        lookahead = -1;
+        break; // Done
+      }
+      if(lookahead == '\n') {
+        lookahead = -1;
+        break;
+      } else {
+        // Assume \r was the end of the line
+        break; // Done
+      }
     }
 
     if (--len == 0) { // allow larger buffer
