@@ -77,7 +77,7 @@ int get_filesize(char *file_name)
 }
 
 static char *getLine(int fd, int echo) {
-  const uint startLineLength = 8; // the linebuffer will automatically grow
+  const uint startLineLength = 16; // the linebuffer will automatically grow
   const char eof = 255; // EOF in stdio.h is -1, but getchar returns int 255 to avoid blocking
 
   char *pStart = (char *)malloc(startLineLength);
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
     close(pb);
     return 1;
   } else if (strcmp(banner, "PiccoloBASIC CMD Mode") != 0) {
-    printf("Error entering CMD mode. R: %s\n", banner);
+    printf("Error entering CMD mode. R: %s***\n", banner);
     free(banner);
     close(pb);
     return 1;
