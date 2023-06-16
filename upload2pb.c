@@ -219,7 +219,7 @@ int main(int argc, char *argv[]) {
   printf("%s\n", hack);
   //printf("%d\n", send_cmd(pb, hack));
 
-  cc = 'l';
+  char cc = 'l';
   write(pb, &cc, 1);
   fsync(pb);
   cc = 's';
