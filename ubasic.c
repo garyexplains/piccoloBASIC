@@ -161,7 +161,7 @@ static void accept(int token) {
     DEBUG_PRINTF("Token not what was expected (expected %d, got %d)\n", token,
                  tokenizer_token());
     tokenizer_error_print(gline_number - 1, "Unexpected token");
-    ubasic_exit(gline_number - 1, "Unexpected token", token);
+    ubasic_exit(gline_number - 1, "Unexpected token", "");
   }
   DEBUG_PRINTF("Expected %d, got it\n", token);
   tokenizer_next();
@@ -801,7 +801,7 @@ static VARIABLE_TYPE builtin(int token, int p) {
 
   if (token <= TOKENIZER_BUILTINS__START || token > TOKENIZER_BUILTINS__END) {
     printf("Error: Invalid builtin function %d (%d)\n", token, p);
-    ubasic_exit(gline_number - 1, "Invalid builtin function", token);
+    ubasic_exit(gline_number - 1, "Invalid builtin function", "");
   }
 
   switch (token) {
@@ -834,7 +834,7 @@ static VARFLOAT_TYPE builtinf(int token, VARFLOAT_TYPE p) {
 
   if (token <= TOKENIZER_BUILTINSF__START || token > TOKENIZER_BUILTINSF__END) {
     printf("Error: Invalid builtinf function %d (%f)\n", token, p);
-    ubasic_exit(gline_number - 1, "Invalid builtinf function", token);
+    ubasic_exit(gline_number - 1, "Invalid builtinf function", "");
   }
 
   switch (token) {
@@ -1326,7 +1326,7 @@ static void statement(void) {
   default:
     printf("Error: On line %d, unknown statement(): %d\n", gline_number - 1,
            token);
-    ubasic_exit(gline_number, "unknown statement()", token);
+    ubasic_exit(gline_number, "unknown statement()", "");
   }
 }
 /*---------------------------------------------------------------------------*/
