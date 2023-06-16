@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
   int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
   program[proglen] = 0;
   lfswrapper_file_close();
-
+printf("%s", program);
   ubasic_init(program);
   do {
     ubasic_run();
