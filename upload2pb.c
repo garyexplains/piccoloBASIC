@@ -47,7 +47,9 @@ char *file2buffer(const char *filename) {
 }
 
 int send_cmd(int fd, char *cmd) {
-    return write(fd, cmd, strlen(cmd));
+    int sts = write(fd, cmd, strlen(cmd));
+    fsync(fd);
+    return sts;
 }
 
 void doupload(int fd, const char *filename) {
@@ -211,16 +213,20 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   free(banner);
+  printf("Entered PiccoloBASIC CMD Mode.\n");
   char hack[16];
-    sprintf(hack,"ls\n");
-    printf("%s\n", hack);
-    send_cmd(pb, hack);
+  sprintf(hack, "ls\n");
+  printf("%s\n", hack);
+  send_cmd(pb, hack);
   char *l1 = getLine(pb, 1);
   printf("%s\n", l1);
+  print_hex(l1);
   char *l2 = getLine(pb, 1);
   printf("%s\n", l2);
+  print_hex(l2);
   char *l3 = getLine(pb, 1);
   printf("%s\n", l3);
+  print_hex(l3);
 
   // int uploadfilesize = get_filesize(argv[1]);
   // if (uploadfilesize == -1) {
