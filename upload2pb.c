@@ -221,15 +221,19 @@ int main(int argc, char *argv[]) {
 
   char cc = 'l';
   printf("%d\n", write(pb, &cc, 1));
+  usleep(100000);
   // fsync(pb);
   cc = 's';
   printf("%d\n", write(pb, &cc, 1));
+  usleep(100000);
   // fsync(pb);
   cc = '\r';
   printf("%d\n", write(pb, &cc, 1));
+  usleep(100000);
   // fsync(pb);
   cc = '\n';
   printf("%d\n", write(pb, &cc, 1));
+  usleep(100000);
   // fsync(pb);
 
   char *l1 = getLine(pb, 1);
