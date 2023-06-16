@@ -85,15 +85,15 @@ static char *getLine(int echo) {
       return NULL;
     }
 
-    if (c == eof) {
+    if ((char) c == eof) {
       break; // Done
     }
 
-    if (c == '\n') {
+    if ((char) c == '\n') {
       break; // Done
     }
 
-    if (c == '\r') {
+    if ((char) c == '\r') {
       lookahead = getchar_timeout_us(500000);
       if(lookahead == PICO_ERROR_TIMEOUT) {
         // Assume \r was the end of the line
@@ -120,11 +120,11 @@ static char *getLine(int echo) {
       pPos = pNew + (pPos - pStart);
       pStart = pNew;
     }
-
+  *pPos++ = c;
     // stop reading if lineBreak character entered
-    if ((*pPos++ = c) == '\r') {
-      break;
-    }
+    // if ((*pPos++ = c) == '\r') {
+    //   break;
+    // }
   }
 
   *pPos = '\0'; // set string end mark
@@ -143,6 +143,8 @@ int doupload(char *uploadfilename, int uploadfilesize) {
   lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT | LFS_O_TRUNC);
   while(count < uploadfilesize) {
     char *result = getLine(1);
+    printf("+OK\n");
+    stdio_flush();
     int b = atoi(result);
     program[count++] = (char) b;
     free(result);
@@ -158,7 +160,7 @@ int enter_CMD_mode() {
   int done = 0;
 
   stdio_flush();
-  printf("PiccoloBASIC CMD Mode\n");
+  printf("+OK PiccoloBASIC CMD Mode\n");
   stdio_flush();
 
   sprintf(cwd, "%s", "/");
@@ -172,12 +174,15 @@ int enter_CMD_mode() {
 
     if (token != NULL) {
       if (strcmp(token, "exit") == 0) {
+        printf("+OK\n");
         done = 1;
       }
       if (strcmp(token, "ls") == 0) {
+        printf("+OK\n");
         lfswrapper_dump_dir(cwd);
       }
       if (strcmp(token, "upload") == 0) { // upload main.bas 432
+        printf("+OK\n");
         token = strtok(NULL, " "); // filename
         char *uploadfilename = malloc(strlen(token)+1);
         strcpy(uploadfilename, token);
@@ -189,10 +194,12 @@ int enter_CMD_mode() {
         free(uploadfilename);
       }
       if (strcmp(token, "rm") == 0) { // upload main.bas 432
+        printf("+OK\n");
         token = strtok(NULL, " "); // filename
         lfswrapper_delete_file(token);
       }
       if (strcmp(token, "cd") == 0) {
+        printf("+OK\n");
         token = strtok(NULL, " ");
         if ((strcmp(token, "..") == 0) || (strcmp(token, "/") == 0)) {
           sprintf(cwd, "//", token);
@@ -201,6 +208,8 @@ int enter_CMD_mode() {
         } else {
           sprintf(cwd, "/%s", token);
         }
+      } else {
+        printf("-ERR %s\n", token);
       }
     }
   }
