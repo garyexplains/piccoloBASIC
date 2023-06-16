@@ -257,10 +257,10 @@ if(mainsz > 0) {
   lfswrapper_file_close();
 }
 printf("PROG (%d):\n%s", proglen, program);
-  // ubasic_init(program);
-  // do {
-  //   ubasic_run();
-  // } while (!ubasic_finished());
+  ubasic_init(program);
+  do {
+    ubasic_run();
+  } while (!ubasic_finished());
   
   // Free the memory allocated for the program
   free(program);
