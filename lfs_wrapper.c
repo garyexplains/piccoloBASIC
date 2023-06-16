@@ -152,7 +152,7 @@ int lfswrapper_get_file_size(char *path) {
 }
 
 int lfswrapper_delete_file(char *path) {
-    return lfs_remove(&lfs, *path);
+    return lfs_remove(&lfs, path);
 }
 
 void lfswrapper_dump_dir(char *path) {
