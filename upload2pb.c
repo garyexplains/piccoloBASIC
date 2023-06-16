@@ -182,10 +182,10 @@ int main(int argc, char *argv[]) {
     send_cmd(pb, hack);
   char *l1 = getLine(pb, 1);
   printf("%s\n", l1);
-  char *l1 = getLine(pb, 1);
-  printf("%s\n", l1);
-  char *l1 = getLine(pb, 1);
-  printf("%s\n", l1);
+  char *l2 = getLine(pb, 1);
+  printf("%s\n", l2);
+  char *l3 = getLine(pb, 1);
+  printf("%s\n", l3);
 
   int uploadfilesize = get_filesize(argv[1]);
   if (uploadfilesize == -1) {
