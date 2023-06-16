@@ -48,7 +48,8 @@ void doupload(int fd, const char *filename) {
 
   int c;
   while ((c = fgetc(file)) != EOF) {
-    // Print the character in hex
+    // Send each byte as a decimal string
+    sprintf(buf, "%d\r", c);
     send_cmd(fd, buf);
     printf("%s\n", buf);
   }
