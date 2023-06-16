@@ -39,6 +39,7 @@
 // #include <unistd.h>
 
 #include "pico/stdlib.h"
+#include "hardware/watchdog.h"
 
 #include "lfs_wrapper.h"
 #include "piccoloBASIC.h"
@@ -172,7 +173,7 @@ int enter_CMD_mode() {
     if (token != NULL) {
       if (strcmp(token, "exit") == 0) {
         if(needsreboot)
-          watchdog_reboot(0, SRAM_END, 10);
+          watchdog_reboot(0, SRAM_END, 0);
         done = 1;
       } else if (strcmp(token, "ls") == 0) {
         printf("+OK\n");
