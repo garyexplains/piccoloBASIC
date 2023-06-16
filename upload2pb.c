@@ -108,7 +108,7 @@ static char *getLine(int fd, int echo) {
         sts = read(fd, &c, 1);
       }
     }
-    printf("IN: %02x\n", (char) c);
+
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     // if (c == 0x03) { // CTRL-C
@@ -118,42 +118,34 @@ static char *getLine(int fd, int echo) {
     //   return NULL;
     // }
     if ((char) c == eof) {
-      printf("eof\n");
       break; // Done
     }
 
     if ((char) c == -1) {
-      printf("-1\n");
       break; // Done
     }
 
     if ((char) c == '\n') {
-      printf("LF\n");
       break; // Done
     }
 
     if ((char) c == '\r') {
-      printf("CR\n");
       usleep(200000);
       int sts = read(fd, &lookahead, 1);
       if (sts == -1) {
         // Assume \r was the end of the line
-        printf("sts is -1");
         lookahead = -1;
         break; // Done
       }
       if(lookahead == '\n') {
-        printf("lookahead is LF");
         lookahead = -1;
         break;
       } else {
         // Assume \r was the end of the line
-        printf("lookahead is something else %02x\n", (char)lookahead);
         break; // Done
       }
     }
 
-printf("Add: %02x\n", (char) c);
     if (--len == 0) { // allow larger buffer
       len = maxLen;
       // double the current line buffer size
@@ -211,8 +203,8 @@ int main(int argc, char *argv[]) {
     printf("Error entering CMD mode. NULL\n");
     close(pb);
     return 1;
-  } else if (strcmp(banner, "PiccoloBASIC CMD Mode") != 0) {
-    printf("Error entering CMD mode. R: %s***\n", banner);
+  } else if (strcmp(banner, "+OK PiccoloBASIC CMD Mode") != 0) {
+    printf("Error entering CMD mode. R: %s\n", banner);
     print_hex(banner);
     free(banner);
     close(pb);
@@ -220,7 +212,7 @@ int main(int argc, char *argv[]) {
   }
   free(banner);
   char hack[16];
-    sprintf(hack,"ls\r");
+    sprintf(hack,"ls\n");
     printf("%s\n", hack);
     send_cmd(pb, hack);
   char *l1 = getLine(pb, 1);
@@ -230,17 +222,17 @@ int main(int argc, char *argv[]) {
   char *l3 = getLine(pb, 1);
   printf("%s\n", l3);
 
-  int uploadfilesize = get_filesize(argv[1]);
-  if (uploadfilesize == -1) {
-    printf("Can't find file %s\n", argv[1]);
-  } else {
-    char uploadcmd[128];
-    sprintf(uploadcmd,"upload %s %d\r", argv[1], uploadfilesize);
-    printf("%s\n", uploadcmd);
-    send_cmd(pb, uploadcmd);
-    doupload(pb, argv[1]);
-  }
-  send_cmd(pb, "exit\r");
+  // int uploadfilesize = get_filesize(argv[1]);
+  // if (uploadfilesize == -1) {
+  //   printf("Can't find file %s\n", argv[1]);
+  // } else {
+  //   char uploadcmd[128];
+  //   sprintf(uploadcmd,"upload %s %d\r", argv[1], uploadfilesize);
+  //   printf("%s\n", uploadcmd);
+  //   send_cmd(pb, uploadcmd);
+  //   doupload(pb, argv[1]);
+  // }
+  // send_cmd(pb, "exit\r");
   // read_file_hex(argv[1]);
   close(pb);
   return 0;
