@@ -34,6 +34,10 @@ char *file2buffer(const char *filename) {
   return buffer;
 }
 
+int send_cmd(int fd, char *cmd) {
+    return write(fd, cmd, strlen(cmd));
+}
+
 void doupload(int fd, const char *filename) {
   char buf[16];
 
@@ -131,10 +135,6 @@ static char *getLine(int fd, int echo) {
   if (echo)
     printf("\n");
   return pStart;
-}
-
-int send_cmd(int fd, char *cmd) {
-    return write(fd, cmd, strlen(cmd));
 }
 
 int main(int argc, char *argv[]) {
