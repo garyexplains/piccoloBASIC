@@ -108,7 +108,7 @@ static char *getLine(int fd, int echo) {
         sts = read(fd, &c, 1);
       }
     }
-    printf("IN: %02x\n", c);
+    printf("IN: %02x\n", (char) c);
     if ((echo) && (c >= ' ') && (c <= 126))
       printf("%c", c);
     // if (c == 0x03) { // CTRL-C
@@ -134,14 +134,17 @@ static char *getLine(int fd, int echo) {
       int sts = read(fd, &lookahead, 1);
       if (sts == -1) {
         // Assume \r was the end of the line
+        printf("sts is -1");
         lookahead = -1;
         break; // Done
       }
       if(lookahead == '\n') {
+        printf("lookahead is LF");
         lookahead = -1;
         break;
       } else {
         // Assume \r was the end of the line
+        printf("lookahead is something else %02x\n", (char)lookahead);
         break; // Done
       }
     }
