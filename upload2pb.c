@@ -217,7 +217,7 @@ int main(int argc, char *argv[]) {
   char hack[16];
   sprintf(hack, "ls\r\n");
   printf("%s\n", hack);
-  send_cmd(pb, hack);
+  printf("%d\n", send_cmd(pb, hack));
   char *l1 = getLine(pb, 1);
   printf("%s\n", l1);
   print_hex(l1);
