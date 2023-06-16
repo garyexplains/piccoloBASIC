@@ -32,6 +32,8 @@
 
 #define PROG_BUFFER_SIZE 4096 // Size of the buffer to read the file into
 
+int check_if_should_enter_CMD_mode();
+
 #endif /* __UBAS_H__ */
 
 

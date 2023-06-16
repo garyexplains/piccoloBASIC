@@ -60,6 +60,7 @@
 
 #include "tokenizer.h"
 #include "ubasic.h"
+#include "piccoloBASIC.h"
 
 static char const *program_ptr;
 #define MAX_STRINGLEN 128
@@ -1343,6 +1344,7 @@ void ubasic_run(void) {
   }
 
   line_statement();
+  check_if_should_enter_CMD_mode();
 }
 /*---------------------------------------------------------------------------*/
 int ubasic_finished(void) { return ended || tokenizer_finished(); }

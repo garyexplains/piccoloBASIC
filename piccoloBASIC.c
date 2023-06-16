@@ -29,8 +29,9 @@
  */
 
 /*
- * Warning: This code needs more error checking for bad/malformed commands sent in CMD mode
-*/
+ * Warning: This code needs more error checking for bad/malformed commands sent
+ * in CMD mode
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,10 +49,9 @@
 
 /*
  * Eek! Globals!
-*/
+ */
 char cwd[MAX_PATH_LEN];
 int lookahead = -1;
-
 
 static char *getLine(int echo) {
   const uint startLineLength =
@@ -70,7 +70,7 @@ static char *getLine(int echo) {
   }
 
   while (1) {
-    if(lookahead >= 0) {
+    if (lookahead >= 0) {
       c = lookahead;
       lookahead = -1;
     } else {
@@ -85,21 +85,21 @@ static char *getLine(int echo) {
       return NULL;
     }
 
-    if ((char) c == eof) {
+    if ((char)c == eof) {
       break; // Done
     }
 
-    if ((char) c == '\n') {
+    if ((char)c == '\n') {
       break; // Done
     }
 
-    if ((char) c == '\r') {
+    if ((char)c == '\r') {
       lookahead = getchar_timeout_us(500000);
-      if(lookahead == PICO_ERROR_TIMEOUT) {
+      if (lookahead == PICO_ERROR_TIMEOUT) {
         // Assume \r was the end of the line
         break; // Done
       }
-      if(lookahead == '\n') {
+      if (lookahead == '\n') {
         lookahead = -1;
         break;
       } else {
@@ -120,11 +120,7 @@ static char *getLine(int echo) {
       pPos = pNew + (pPos - pStart);
       pStart = pNew;
     }
-  *pPos++ = c;
-    // stop reading if lineBreak character entered
-    // if ((*pPos++ = c) == '\r') {
-    //   break;
-    // }
+    *pPos++ = c;
   }
 
   *pPos = '\0'; // set string end mark
@@ -141,12 +137,12 @@ int doupload(char *uploadfilename, int uploadfilesize) {
   }
 
   lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT | LFS_O_TRUNC);
-  while(count < uploadfilesize) {
+  while (count < uploadfilesize) {
     char *result = getLine(0);
     printf("+OK\n");
     stdio_flush();
     int b = atoi(result);
-    program[count++] = (char) b;
+    program[count++] = (char)b;
     free(result);
   }
   lfswrapper_file_write(program, uploadfilesize);
@@ -174,7 +170,6 @@ int enter_CMD_mode() {
 
     if (token != NULL) {
       if (strcmp(token, "exit") == 0) {
-        printf("+OK\n");
         done = 1;
       } else if (strcmp(token, "ls") == 0) {
         printf("+OK\n");
@@ -182,11 +177,11 @@ int enter_CMD_mode() {
       } else if (strcmp(token, "upload") == 0) { // upload main.bas 432
         printf("+OK\n");
         token = strtok(NULL, " "); // filename
-        char *uploadfilename = malloc(strlen(token)+1);
+        char *uploadfilename = malloc(strlen(token) + 1);
         strcpy(uploadfilename, token);
         token = strtok(NULL, " "); // file size in bytes
         int uploadfilesize = atoi(token);
-        if(uploadfilesize > 0) {
+        if (uploadfilesize > 0) {
           doupload(uploadfilename, uploadfilesize);
         }
         free(uploadfilename);
@@ -231,59 +226,34 @@ int main(int argc, char *argv[]) {
 
   stdio_init_all();
 
-  printf("...\n");
-  sleep_ms(2000);
-  stdio_flush();
-  printf("...\n");
-  sleep_ms(2000);
-  stdio_flush();
-
   lfswrapper_lfs_mount();
 
-// Allocate memory for the string
+  // Allocate memory for the program
   char *program = malloc(PROG_BUFFER_SIZE);
   if (program == NULL) {
-    perror("Error allocating memory for string");
+    perror("Error allocating memory for program");
     return 1;
   }
 
   int mainsz = lfswrapper_get_file_size("main.bas");
-  printf("main.bas %d\n", mainsz);
 
-if(mainsz > 0) {
-  lfswrapper_file_open("main.bas", LFS_O_RDONLY);
-  proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
-  program[proglen] = 0;
-  lfswrapper_file_close();
-}
-printf("PROG (%d):\n%s", proglen, program);
+  if (mainsz > 0) {
+    lfswrapper_file_open("main.bas", LFS_O_RDONLY);
+    proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
+    program[proglen] = 0;
+    lfswrapper_file_close();
+  }
   ubasic_init(program);
   do {
     ubasic_run();
   } while (!ubasic_finished());
-  
+
   // Free the memory allocated for the program
   free(program);
-
-//   static const char fakeprogram[] = "for i = 1 to 10\n\
-// print i\n\
-// next i\n\
-// let x = 99\n\
-// print x\n\
-// print \"The end is nigh\"\n\
-// print \"The end is here!\"";
-//   ubasic_init(fakeprogram);
-
-//   do {
-//     ubasic_run();
-//   } while (!ubasic_finished());
 
   // Never actually return/exit
   while (true) {
     check_if_should_enter_CMD_mode();
-    printf("-\r");
-    sleep_ms(500);
-    printf("+\r");
     sleep_ms(500);
   }
   return 0;
