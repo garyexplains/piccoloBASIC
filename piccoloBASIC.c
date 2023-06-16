@@ -142,7 +142,7 @@ int doupload(char *uploadfilename, int uploadfilesize) {
 
   lfswrapper_file_open(uploadfilename, LFS_O_RDWR | LFS_O_CREAT | LFS_O_TRUNC);
   while(count < uploadfilesize) {
-    char *result = getLine(1);
+    char *result = getLine(0);
     printf("+OK\n");
     stdio_flush();
     int b = atoi(result);
@@ -168,7 +168,7 @@ int enter_CMD_mode() {
   while (!done) {
     if (result != NULL)
       free(result);
-    result = getLine(1);
+    result = getLine(0);
     // Extract the first token
     char *token = strtok(result, " ");
 
