@@ -61,6 +61,8 @@ waitforok(ser)
 with open(sys.argv[1], 'rb') as f:
     byte = f.read(1)
     while byte != b'':
-        up = "" + ord(byte) + "\n"
+        up = "" + str(ord(byte)) + "\n"
         print(up)
+        packet = bytearray(up, 'ascii')
+        ser.write(packet)
         byte = f.read(1)
