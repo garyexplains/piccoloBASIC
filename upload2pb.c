@@ -176,6 +176,17 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   free(banner);
+  char hack[16];
+    sprintf(hack,"ls\r");
+    printf("%s\n", hack);
+    send_cmd(pb, hack);
+  char *l1 = getLine(pb, 1);
+  printf("%s\n", l1);
+  char *l1 = getLine(pb, 1);
+  printf("%s\n", l1);
+  char *l1 = getLine(pb, 1);
+  printf("%s\n", l1);
+
   int uploadfilesize = get_filesize(argv[1]);
   if (uploadfilesize == -1) {
     printf("Can't find file %s\n", argv[1]);

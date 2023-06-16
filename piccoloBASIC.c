@@ -223,7 +223,7 @@ int check_if_should_enter_CMD_mode() {
 
 int main(int argc, char *argv[]) {
   int proglen;
-  
+
   stdio_init_all();
 
   printf("...\n");
@@ -252,10 +252,10 @@ if(mainsz > 0) {
   lfswrapper_file_close();
 }
 printf("PROG (%d):\n%s", proglen, program);
-  ubasic_init(program);
-  do {
-    ubasic_run();
-  } while (!ubasic_finished());
+  // ubasic_init(program);
+  // do {
+  //   ubasic_run();
+  // } while (!ubasic_finished());
   
   // Free the memory allocated for the program
   free(program);
