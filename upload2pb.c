@@ -118,10 +118,12 @@ static char *getLine(int fd, int echo) {
     //   return NULL;
     // }
     if (c == eof) {
+      printf("eof\n");
       break; // Done
     }
 
     if (c == -1) {
+      printf("-1\n");
       break; // Done
     }
 
