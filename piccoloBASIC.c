@@ -240,12 +240,15 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-printf("main.bas %d\n", lfswrapper_get_file_size("main.bas"));
+  int mainsz = lfswrapper_get_file_size("main.bas");
+  printf("main.bas %d\n", mainsz);
 
+if(mainsz > 0) {
   lfswrapper_file_open("main.bas", LFS_O_RDONLY);
   int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
   program[proglen] = 0;
   lfswrapper_file_close();
+}
 // printf("PROG (%d):\n%s", proglen, program);
 //   ubasic_init(program);
 //   do {
