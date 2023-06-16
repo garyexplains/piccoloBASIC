@@ -222,6 +222,8 @@ int check_if_should_enter_CMD_mode() {
 }
 
 int main(int argc, char *argv[]) {
+  int proglen;
+  
   stdio_init_all();
 
   printf("...\n");
@@ -245,7 +247,7 @@ int main(int argc, char *argv[]) {
 
 if(mainsz > 0) {
   lfswrapper_file_open("main.bas", LFS_O_RDONLY);
-  int proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
+  proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
   program[proglen] = 0;
   lfswrapper_file_close();
 }
