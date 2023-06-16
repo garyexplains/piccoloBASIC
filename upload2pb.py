@@ -62,7 +62,14 @@ with open(sys.argv[1], 'rb') as f:
     byte = f.read(1)
     while byte != b'':
         up = "" + str(ord(byte)) + "\n"
-        print(up)
+        #print(up)
         packet = bytearray(up, 'ascii')
         ser.write(packet)
+        waitforok(ser)
         byte = f.read(1)
+
+cmd = "exit"
+packet = bytearray(cmd, 'ascii')
+ser.write(packet)
+
+print("Upload complete.")
