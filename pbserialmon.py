@@ -28,7 +28,7 @@ def serialmon():
         rstr = str(r, 'ascii')
         if len(rstr) == 0:
             continue
-        print(rstr)
+        print(rstr, end="")
 
 def uploader():
     print("Uploading " + sys.argv[1] + " to piccoloBASIC via " + sys.argv[2])
