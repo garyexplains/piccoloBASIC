@@ -15,7 +15,7 @@ def waitforok(serl):
 
 def serialmon():
     ser = serial.Serial(
-            port=sys.argv[2],
+            port=sys.argv[1],
             baudrate = 9600,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
