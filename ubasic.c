@@ -1252,6 +1252,69 @@ static void pop_statement(void) {
     tokenizer_next();
 }
 /*---------------------------------------------------------------------------*/
+ * GPIO functions
+   TOKENIZER_GPIOINIT,
+  TOKENIZER_GPIODIRIN,
+  TOKENIZER_GPIODIROUT,
+  TOKENIZER_GPIOON,
+  TOKENIZER_GPIOOFF,
+
+/*---------------------------------------------------------------------------*/
+static void gpio_init_statement(void) {
+  DEBUG_PRINTF("Enter gpio_init_statement\n");
+  accept(TOKENIZER_GPIOINIT);
+
+  int pin = expr();
+  if (tokenizer_token() == TOKENIZER_CR)
+    tokenizer_next();
+  gpio_init(pin);
+}
+/*---------------------------------------------------------------------------*/
+static void gpio_dir_in_statement(void) {
+  DEBUG_PRINTF("Enter gpio_dir_in_statement\n");
+  accept(TOKENIZER_GPIODIRIN);
+
+  int pin = expr();
+  if (tokenizer_token() == TOKENIZER_CR)
+    tokenizer_next();
+  gpio_set_dir(pin, GPIO_IN);
+}
+/*---------------------------------------------------------------------------*/
+static void gpio_dir_out_statement(void) {
+  DEBUG_PRINTF("Enter gpio_dir_out_statement\n");
+  accept(TOKENIZER_GPIODIROUT);
+
+  int pin = expr();
+  if (tokenizer_token() == TOKENIZER_CR)
+    tokenizer_next();
+  gpio_set_dir(pin, GPIO_OUT);
+}
+/*---------------------------------------------------------------------------*/
+static void gpio_on_statement(void) {
+  DEBUG_PRINTF("Enter gpio_on_statement\n");
+  accept(TOKENIZER_GPIOON);
+
+  int pin = expr();
+  if (tokenizer_token() == TOKENIZER_CR)
+    tokenizer_next();
+  gpio_put(pin, 1);
+}
+/*---------------------------------------------------------------------------*/
+static void gpio_on_statement(void) {
+  DEBUG_PRINTF("Enter gpio_off_statement\n");
+  accept(TOKENIZER_GPIOOFF);
+
+  int pin = expr();
+  if (tokenizer_token() == TOKENIZER_CR)
+    tokenizer_next();
+  gpio_put(pin, 0);
+}
+/*---------------------------------------------------------------------------*/
+ * End GPIO functions
+/*---------------------------------------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------*/
 static void label_statement(void) {
   char l[MAX_LABELLEN];
   DEBUG_PRINTF("Enter label_statement\n");

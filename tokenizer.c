@@ -73,6 +73,9 @@ static const struct keyword_token keywords[] = {
     {"log", TOKENIZER_LOG},      {"tan", TOKENIZER_TAN},
     {"sin", TOKENIZER_SIN},      {"sqr", TOKENIZER_SQR},
     {"len", TOKENIZER_LEN},      {"os", TOKENIZER_OS},
+    {"pininit", TOKENIZER_GPIOINIT},      {"pindirin", TOKENIZER_GPIODIRIN},
+    {"pindirout", TOKENIZER_GPIODIROUT},  {"pinon", TOKENIZER_GPIOON},
+    {"pinoff", TOKENIZER_GPIOOFF},
     {"//", TOKENIZER_REM},
     {NULL, TOKENIZER_ERROR}};
 
