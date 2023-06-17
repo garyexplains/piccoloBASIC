@@ -1375,6 +1375,21 @@ static void statement(void) {
   case TOKENIZER_LABEL:
     label_statement();
     break;
+  case TOKENIZER_GPIOINIT:
+    gpio_init_statement();
+    break;
+  case TOKENIZER_GPIODIRIN:
+    gpio_dir_in_statement();
+    break;
+  case TOKENIZER_GPIODIROUT:
+    gpio_dir_out_statement();
+    break;
+  case TOKENIZER_GPIOON:
+    gpio_on_statement();
+    break;
+  case TOKENIZER_GPIOOFF:
+    gpio_off_statement();
+    break;
   case TOKENIZER_LET:
     accept(TOKENIZER_LET);
     /* Fall through. */
