@@ -1294,7 +1294,7 @@ static void gpio_on_statement(void) {
   gpio_put(pin, 1);
 }
 /*---------------------------------------------------------------------------*/
-static void gpio_on_statement(void) {
+static void gpio_off_statement(void) {
   DEBUG_PRINTF("Enter gpio_off_statement\n");
   accept(TOKENIZER_GPIOOFF);
 
