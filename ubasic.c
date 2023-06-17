@@ -1251,15 +1251,9 @@ static void pop_statement(void) {
   if (tokenizer_token() == TOKENIZER_CR)
     tokenizer_next();
 }
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------
  * GPIO functions
-   TOKENIZER_GPIOINIT,
-  TOKENIZER_GPIODIRIN,
-  TOKENIZER_GPIODIROUT,
-  TOKENIZER_GPIOON,
-  TOKENIZER_GPIOOFF,
-
-/*---------------------------------------------------------------------------*/
+ *---------------------------------------------------------------------------*/
 static void gpio_init_statement(void) {
   DEBUG_PRINTF("Enter gpio_init_statement\n");
   accept(TOKENIZER_GPIOINIT);
@@ -1309,12 +1303,10 @@ static void gpio_on_statement(void) {
     tokenizer_next();
   gpio_put(pin, 0);
 }
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------
  * End GPIO functions
-/*---------------------------------------------------------------------------*/
+ *---------------------------------------------------------------------------*/
 
-
-/*---------------------------------------------------------------------------*/
 static void label_statement(void) {
   char l[MAX_LABELLEN];
   DEBUG_PRINTF("Enter label_statement\n");
