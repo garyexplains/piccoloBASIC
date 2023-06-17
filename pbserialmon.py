@@ -13,7 +13,7 @@ def waitforok(serl):
         if "+OK" in rstr:
             break
 
-def serialmod():
+def serialmon():
     ser = serial.Serial(
             port=sys.argv[2],
             baudrate = 9600,
