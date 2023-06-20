@@ -388,7 +388,7 @@ VARIABLE_TYPE tokenizer_num(void) {
   //i = atol(ptr);
   //i = strtol(ptr, NULL, 10);
   i = strtoi_VARIABLE_TYPE(ptr, NULL, 0);
-  j = 3489660952;
+  long j = 3489660952;
   j++;
   printf("%ld\n", j);
   DEBUG_PRINTF("tokenizer_num result: %ld\n", i);
