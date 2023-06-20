@@ -118,13 +118,20 @@ static VARSTRING_TYPE sprintfloat(VARFLOAT_TYPE f);
 static void printfloat(VARFLOAT_TYPE f);
 
 peek_func peek_function = NULL;
-poke_func poke_function = NULL;
+poke_func poke_function = poke;
+
+void poke(VARIABLE_TYPE arg, VARIABLE_TYPE value) {
+    volatile void *addr = arg;
+    *addr = value;
+}
 
 /*---------------------------------------------------------------------------*/
 void ubasic_init(const char *program) {
   program_ptr = program;
   for_stack_ptr = gosub_stack_ptr = 0;
   index_free();
+  peek_function = peek;
+  poke_function = poke;
   tokenizer_init(program);
   gline_number = 1;
   ended = 0;

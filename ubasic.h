@@ -51,5 +51,6 @@ VARSTRING_TYPE ubasic_get_string_variable(int varnum);
 void ubasic_set_string_variable(int varum, VARSTRING_TYPE value);
 
 void ubasic_init_peek_poke(const char *program, peek_func peek, poke_func poke);
+void poke(VARIABLE_TYPE arg, VARIABLE_TYPE value);
 
 #endif /* __UBASIC_H__ */
