@@ -179,7 +179,7 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 				any = 1;
 				acc *= base;
 				acc += c;
-        printf("acc: %ld\n", acc);
+        printf("acc: %d\n", acc);
 			}
 		}
 	}
