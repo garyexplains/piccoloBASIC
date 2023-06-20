@@ -234,13 +234,6 @@ int main(int argc, char *argv[]) {
 
   stdio_init_all();
 
-
-  gpio_init(14);
-  gpio_set_dir(14, GPIO_OUT);
-  gpio_put(14,1);
-
-
-
   // Check if GPI10 is high, if so don't run program
   // but jump straight to CMD mode
   gpio_init(10);
@@ -275,6 +268,10 @@ int main(int argc, char *argv[]) {
     free(program);
   } else {
     while (true) {
+        gpio_init(14);
+  gpio_set_dir(14, GPIO_OUT);
+  gpio_put(14,1);
+
       enter_CMD_mode();
       sleep_ms(500);
     }
