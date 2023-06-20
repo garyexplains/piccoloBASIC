@@ -412,9 +412,10 @@ VARIABLE_TYPE tokenizer_num(void) {
   //i = atol(ptr);
   //i = strtol(ptr, NULL, 10);
   i = strtoi_VARIABLE_TYPE(ptr, NULL, 0);
-  #if DEBUG
+  // #if DEBUG
   printf("tokenizer_num result (in hex) 0x");
   print_hex(i);
+  // #endif
   return i;
 }
 /*---------------------------------------------------------------------------*/
