@@ -255,7 +255,7 @@ VARIABLE_TYPE tokenizer_num(void) {
   DEBUG_PRINTF("tokenizer_num: %s\n", ptr);
   //i = atol(ptr);
   i = strtol(ptr, NULL, 10);
-  DEBUG_PRINTF("tokenizer_num: %ld\n", i);
+  DEBUG_PRINTF("tokenizer_num result: %ld\n", i);
   return i;
 }
 /*---------------------------------------------------------------------------*/
