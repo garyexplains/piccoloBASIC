@@ -121,8 +121,8 @@ peek_func peek_function = NULL;
 poke_func poke_function = NULL;
 
 void poke(VARIABLE_TYPE arg, VARIABLE_TYPE value) {
-    volatile VARIABLE_TYPE *addr = (uint32_t) arg;
-    *addr = value;
+    //volatile VARIABLE_TYPE *addr = (uint32_t) arg;
+    //*addr = value;
 }
 
 /*---------------------------------------------------------------------------*/
