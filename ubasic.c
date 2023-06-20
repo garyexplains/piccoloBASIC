@@ -120,18 +120,13 @@ static void printfloat(VARFLOAT_TYPE f);
 peek_func peek_function = NULL;
 poke_func poke_function = NULL;
 
-void poke(VARIABLE_TYPE arg, VARIABLE_TYPE value) {
-    //volatile VARIABLE_TYPE *addr = (uint32_t) arg;
-    //*addr = value;
-}
-
 /*---------------------------------------------------------------------------*/
 void ubasic_init(const char *program) {
   program_ptr = program;
   for_stack_ptr = gosub_stack_ptr = 0;
   index_free();
   peek_function = NULL;
-  poke_function = poke;
+  poke_function = NULL;
   tokenizer_init(program);
   gline_number = 1;
   ended = 0;
@@ -148,24 +143,13 @@ char *ubasic_exit_static_itoa(int e) {
 }
 void ubasic_exit(int errline, char *errmsg, char *errp) {
   int lessoften = 0;
-  // Never actually return/exit
+  // Never actually return/exit, keep printing last error
   while (true) {
     check_if_should_enter_CMD_mode();
     sleep_ms(500);
     if( (lessoften++ % 10) == 0)
       printf("Error on line %d - %s (%s)\n", errline, errmsg, errp);
   }
-}
-/*---------------------------------------------------------------------------*/
-void ubasic_init_peek_poke(const char *program, peek_func peek,
-                           poke_func poke) {
-  program_ptr = program;
-  for_stack_ptr = gosub_stack_ptr = 0;
-  index_free();
-  peek_function = peek;
-  poke_function = poke;
-  tokenizer_init(program);
-  ended = 0;
 }
 /*---------------------------------------------------------------------------*/
 static void accept(int token) {

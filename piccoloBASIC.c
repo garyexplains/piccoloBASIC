@@ -38,8 +38,8 @@
 #include <string.h>
 // #include <unistd.h>
 
-#include "pico/stdlib.h"
 #include "hardware/watchdog.h"
+#include "pico/stdlib.h"
 
 #include "lfs_wrapper.h"
 #include "piccoloBASIC.h"
@@ -235,7 +235,8 @@ int main(int argc, char *argv[]) {
   stdio_init_all();
 
   // Check if GPI10 is high, if so don't run program
-  // but jump straight to CMD mode
+  // This allows the uploader to enter CMD mode so
+  // it still possible to upload a new BASIC program
   gpio_init(10);
   gpio_set_dir(10, GPIO_IN);
   gpio_pull_down(10);
@@ -267,6 +268,7 @@ int main(int argc, char *argv[]) {
     // Free the memory allocated for the program
     free(program);
   } else {
+    // Eek! Hardcoded!
     gpio_init(14);
     gpio_set_dir(14, GPIO_OUT);
     gpio_put(14, 1);
