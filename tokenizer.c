@@ -80,12 +80,11 @@ void print_hex(int num) {
     printf("\n");
 }
 
-
 VARIABLE_TYPE 
 strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 {
 	const char *s;
-	long acc, cutoff;
+	intmax_t acc, cutoff;
 	int c;
 	int neg, any, cutlim;
 	/*
