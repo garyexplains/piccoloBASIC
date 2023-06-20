@@ -117,11 +117,11 @@ static VARSTRING_TYPE builtinstr(int token, VARSTRING_TYPE p);
 static VARSTRING_TYPE sprintfloat(VARFLOAT_TYPE f);
 static void printfloat(VARFLOAT_TYPE f);
 
-// peek_func peek_function = NULL;
-// poke_func poke_function = poke;
+peek_func peek_function = NULL;
+poke_func poke_function = NULL;
 
 void poke(VARIABLE_TYPE arg, VARIABLE_TYPE value) {
-    volatile void *addr = (void *) arg;
+    volatile VARIABLE_TYPE *addr = (VARIABLE_TYPE *) arg;
     *addr = value;
 }
 
