@@ -1,4 +1,4 @@
-/*
+7/*
  * Copyright (c) 2006, Adam Dunkels
  * Copyright (c) 2023, Gary Sims
  * All rights reserved.
@@ -61,7 +61,7 @@ static int current_token = TOKENIZER_ERROR;
  * alphabets and digits are each contiguous.
  */
 void print_hex(int num) {
-    char hex[100];
+    char hex[128];
     int i = 0;
     while (num != 0) {
         int temp = 0;
@@ -412,10 +412,9 @@ VARIABLE_TYPE tokenizer_num(void) {
   //i = atol(ptr);
   //i = strtol(ptr, NULL, 10);
   i = strtoi_VARIABLE_TYPE(ptr, NULL, 0);
-  int64_t j = 3489660952;
-  j++;
-  printf("%d\n", j);
-  DEBUG_PRINTF("tokenizer_num result: %d\n", i);
+  #if DEBUG
+  printf("tokenizer_num result (in hex) 0x");
+  print_hex(i);
   return i;
 }
 /*---------------------------------------------------------------------------*/
