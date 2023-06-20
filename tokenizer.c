@@ -250,9 +250,15 @@ void tokenizer_next(void) {
   return;
 }
 /*---------------------------------------------------------------------------*/
-VARIABLE_TYPE tokenizer_num(void) { return atol(ptr); }
+VARIABLE_TYPE tokenizer_num(void) { 
+    DEBUG_PRINTF("tokenizer_num: %s\n", ptr);
+    return atol(ptr);
+  }
 /*---------------------------------------------------------------------------*/
-VARFLOAT_TYPE tokenizer_numfloat(void) { return atof(ptr); }
+  VARFLOAT_TYPE tokenizer_numfloat(void) {
+    DEBUG_PRINTF("tokenizer_numfloat: %s\n", ptr);
+    return atof(ptr);
+  }
 /*---------------------------------------------------------------------------*/
 void tokenizer_string(char *dest, int len) {
   char *string_end;
