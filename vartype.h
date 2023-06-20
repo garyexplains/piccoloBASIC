@@ -33,7 +33,7 @@
 
 #include <stdint.h> 
 
-#define VARIABLE_TYPE long
+#define VARIABLE_TYPE int64_t 
 #define VARFLOAT_TYPE double
 #define VARSTRING_TYPE char *
 
