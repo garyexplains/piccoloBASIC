@@ -230,7 +230,7 @@ int check_if_should_enter_CMD_mode() {
 
 int main(int argc, char *argv[]) {
   int proglen;
-  bool cmdoverride = false;
+  bool norun = false;
 
   stdio_init_all();
 
@@ -239,11 +239,11 @@ int main(int argc, char *argv[]) {
   gpio_init(10);
   gpio_set_dir(10, GPIO_IN);
   gpio_pull_down(10);
-  cmdoverride = gpio_get(10);
+  norun = gpio_get(10);
 
   lfswrapper_lfs_mount();
 
-  if (!cmdoverride) {
+  if (!norun) {
     // Allocate memory for the program
     char *program = malloc(PROG_BUFFER_SIZE);
     if (program == NULL) {
@@ -268,12 +268,9 @@ int main(int argc, char *argv[]) {
     free(program);
   } else {
     while (true) {
-        gpio_init(14);
-  gpio_set_dir(14, GPIO_OUT);
-  gpio_put(14,1);
-
-      enter_CMD_mode();
-      sleep_ms(500);
+      gpio_init(14);
+      gpio_set_dir(14, GPIO_OUT);
+      gpio_put(14, 1);
     }
   }
   // Never actually return/exit
