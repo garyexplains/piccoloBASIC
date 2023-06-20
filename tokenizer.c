@@ -250,9 +250,11 @@ void tokenizer_next(void) {
   return;
 }
 /*---------------------------------------------------------------------------*/
-VARIABLE_TYPE tokenizer_num(void) { 
-    DEBUG_PRINTF("tokenizer_num: %s\n", ptr);
-    return atol(ptr);
+VARIABLE_TYPE tokenizer_num(void) {
+  VARIABLE_TYPE i;
+  DEBUG_PRINTF("tokenizer_num: %s\n", ptr);
+  i = atol(ptr);
+  DEBUG_PRINTF("tokenizer_num: %dl\n", i);
   }
 /*---------------------------------------------------------------------------*/
   VARFLOAT_TYPE tokenizer_numfloat(void) {
