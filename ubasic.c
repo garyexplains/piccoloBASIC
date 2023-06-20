@@ -181,7 +181,7 @@ static void accept(int token) {
 /*---------------------------------------------------------------------------*/
 static int varfactor(void) {
   VARIABLE_TYPE r;
-  DEBUG_PRINTF("varfactor: obtaining %d from variable %d\n",
+  DEBUG_PRINTF("varfactor: obtaining %ld from variable %d\n",
                variables[tokenizer_variable_num()], tokenizer_variable_num());
   r = ubasic_get_variable(tokenizer_variable_num());
   accept(TOKENIZER_VARIABLE);

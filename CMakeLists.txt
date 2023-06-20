@@ -23,7 +23,7 @@ project(piccoloBASIC C CXX ASM)
 pico_sdk_init()
 
 if (TARGET tinyusb_device)
-    add_executable(piccoloBASIC piccoloBASIC.c piccoloBASIC.h tokenizer.c tokenizer.h ubasic.c ubasic.h lfs.c lfs.h lfs_util.c lfs_util.h lfs_wrapper.c)
+    add_executable(piccoloBASIC piccoloBASIC.c piccoloBASIC.h tokenizer.c tokenizer.h ubasic.c ubasic.h vartype.h lfs.c lfs.h lfs_util.c lfs_util.h lfs_wrapper.c)
 
     # pull in common dependencies
     target_link_libraries(piccoloBASIC pico_stdlib hardware_flash)
