@@ -238,7 +238,7 @@ int main(int argc, char *argv[]) {
   // but jump straight to CMD mode
   gpio_init(10);
   gpio_set_dir(10, GPIO_IN);
-  gpio_pull_down (uint gpio)
+  gpio_pull_down(10);
   cmdoverride = gpio_get(10);
 
   lfswrapper_lfs_mount();
