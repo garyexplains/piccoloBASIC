@@ -230,34 +230,48 @@ int check_if_should_enter_CMD_mode() {
 
 int main(int argc, char *argv[]) {
   int proglen;
+  bool cmdoverride = false;
 
   stdio_init_all();
 
+  // Check if GPI10 is high, if so don't run program
+  // but jump straight to CMD mode
+  gpio_init(10);
+  gpio_set_dir(10, GPIO_IN);
+  gpio_pull_down (uint gpio)
+  cmdoverride = gpio_get(10);
+
   lfswrapper_lfs_mount();
 
-  // Allocate memory for the program
-  char *program = malloc(PROG_BUFFER_SIZE);
-  if (program == NULL) {
-    perror("Error allocating memory for program");
-    return 1;
+  if (!cmdoverride) {
+    // Allocate memory for the program
+    char *program = malloc(PROG_BUFFER_SIZE);
+    if (program == NULL) {
+      perror("Error allocating memory for program");
+      return 1;
+    }
+
+    int mainsz = lfswrapper_get_file_size("main.bas");
+
+    if (mainsz > 0) {
+      lfswrapper_file_open("main.bas", LFS_O_RDONLY);
+      proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
+      program[proglen] = 0;
+      lfswrapper_file_close();
+    }
+    ubasic_init(program);
+    do {
+      ubasic_run();
+    } while (!ubasic_finished());
+
+    // Free the memory allocated for the program
+    free(program);
+  } else {
+    while (true) {
+      enter_CMD_mode();
+      sleep_ms(500);
+    }
   }
-
-  int mainsz = lfswrapper_get_file_size("main.bas");
-
-  if (mainsz > 0) {
-    lfswrapper_file_open("main.bas", LFS_O_RDONLY);
-    proglen = lfswrapper_file_read(program, PROG_BUFFER_SIZE);
-    program[proglen] = 0;
-    lfswrapper_file_close();
-  }
-  ubasic_init(program);
-  do {
-    ubasic_run();
-  } while (!ubasic_finished());
-
-  // Free the memory allocated for the program
-  free(program);
-
   // Never actually return/exit
   while (true) {
     check_if_should_enter_CMD_mode();
