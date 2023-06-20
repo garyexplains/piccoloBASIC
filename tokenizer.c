@@ -84,7 +84,7 @@ VARIABLE_TYPE
 strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 {
 	const char *s;
-	intmax_t acc, cutoff;
+	VARIABLE_TYPE acc, cutoff;
 	int c;
 	int neg, any, cutlim;
 	/*
@@ -134,29 +134,29 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 #define  CASE_BASE(x) \
             case x:  \
 	        if (neg) { \
-                    cutlim = INTMAX_MIN % x; \
-		    cutoff = INTMAX_MIN / x; \
+                    cutlim = INT64_MIN % x; \
+		    cutoff = INT64_MIN / x; \
 	        } else { \
-		    cutlim = INTMAX_MAX % x; \
-		    cutoff = INTMAX_MAX / x; \
+		    cutlim = INT64_MAX % x; \
+		    cutoff = INT64_MAX / x; \
 		 }; \
 		 break
 		 
 	switch (base) {
             case 4:
                 if (neg) {
-                    cutlim = (int)(INTMAX_MIN % 4);
-                    cutoff = INTMAX_MIN / 4;
+                    cutlim = (int)(INT64_MIN % 4);
+                    cutoff = INT64_MIN / 4;
                 } else {
-                    cutlim = (int)(INTMAX_MAX % 4);
-                    cutoff = INTMAX_MAX / 4;
+                    cutlim = (int)(INT64_MAX % 4);
+                    cutoff = INT64_MAX / 4;
                 }
                 break;
 	    CASE_BASE(8);
 	    CASE_BASE(10);
 	    CASE_BASE(16);
 	    default:  
-	              cutoff  = neg ? INTMAX_MIN : INTMAX_MAX;
+	              cutoff  = neg ? INT64_MIN : INT64_MAX;
 		      cutlim  = cutoff % base;
 	              cutoff /= base;
 	}
@@ -183,7 +183,7 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 		if (neg) {
 			if (acc < cutoff || (acc == cutoff && c > cutlim)) {
 				any = -1;
-				acc = INTMAX_MIN;
+				acc = INT64_MIN;
 				//errno = ERANGE;
 			} else {
 				any = 1;
@@ -193,7 +193,7 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 		} else {
 			if (acc > cutoff || (acc == cutoff && c > cutlim)) {
 				any = -1;
-				acc = INTMAX_MAX;
+				acc = INT64_MAX;
 				//errno = ERANGE;
 			} else {
 				any = 1;
@@ -207,6 +207,7 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 	if (endptr != 0)
 		*endptr = (char *) (any ? s - 1 : nptr);
 	printf("final acc: %d\n", acc);
+  print_hex(acc);
   return (acc);
 }
 /* */
@@ -413,8 +414,8 @@ VARIABLE_TYPE tokenizer_num(void) {
   i = strtoi_VARIABLE_TYPE(ptr, NULL, 0);
   long j = 3489660952;
   j++;
-  printf("%ld\n", j);
-  DEBUG_PRINTF("tokenizer_num result: %ld\n", i);
+  printf("%d\n", j);
+  DEBUG_PRINTF("tokenizer_num result: %d\n", i);
   return i;
 }
 /*---------------------------------------------------------------------------*/
