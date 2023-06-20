@@ -1175,7 +1175,7 @@ static void peek_statement(void) {
 static void poke_statement(void) {
   VARIABLE_TYPE poke_addr;
   VARIABLE_TYPE value;
-
+  DEBUG_PRINTF("Enter poke_statement\n");
   accept(TOKENIZER_POKE);
   poke_addr = expr();
   accept(TOKENIZER_COMMA);
