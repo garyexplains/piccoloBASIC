@@ -164,7 +164,7 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 			if (acc < cutoff || (acc == cutoff && c > cutlim)) {
 				any = -1;
 				acc = INTMAX_MIN;
-				errno = ERANGE;
+				//errno = ERANGE;
 			} else {
 				any = 1;
 				acc *= base;
@@ -174,7 +174,7 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 			if (acc > cutoff || (acc == cutoff && c > cutlim)) {
 				any = -1;
 				acc = INTMAX_MAX;
-				errno = ERANGE;
+				//errno = ERANGE;
 			} else {
 				any = 1;
 				acc *= base;
