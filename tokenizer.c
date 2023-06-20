@@ -60,11 +60,32 @@ static int current_token = TOKENIZER_ERROR;
  * Ignores `locale' stuff.  Assumes that the upper and lower case
  * alphabets and digits are each contiguous.
  */
+void print_hex(int num) {
+    char hex[100];
+    int i = 0;
+    while (num != 0) {
+        int temp = 0;
+        temp = num % 16;
+        if (temp < 10) {
+            hex[i] = temp + 48;
+            i++;
+        } else {
+            hex[i] = temp + 55;
+            i++;
+        }
+        num = num / 16;
+    }
+    for (int j = i - 1; j >= 0; j--)
+        printf("%c", hex[j]);
+    printf("\n");
+}
+
+
 VARIABLE_TYPE 
 strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 {
 	const char *s;
-	intmax_t acc, cutoff;
+	long acc, cutoff;
 	int c;
 	int neg, any, cutlim;
 	/*
@@ -180,12 +201,14 @@ strtoi_VARIABLE_TYPE(const char *nptr, char **endptr, int base)
 				acc *= base;
 				acc += c;
         printf("acc: %d\n", acc);
-			}
-		}
+        print_hex(acc);
+                        }
+                }
 	}
 	if (endptr != 0)
 		*endptr = (char *) (any ? s - 1 : nptr);
-	return (acc);
+	printf("final acc: %d\n", acc);
+  return (acc);
 }
 /* */
 static const struct keyword_token keywords[] = {
