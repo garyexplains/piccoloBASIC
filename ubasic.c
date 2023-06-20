@@ -217,7 +217,7 @@ static int factor(void) {
   switch (tokenizer_token()) {
   case TOKENIZER_NUMBER:
     r = tokenizer_num();
-    DEBUG_PRINTF("factor: number %d\n", r);
+    DEBUG_PRINTF("factor: number %ld\n", r);
     accept(TOKENIZER_NUMBER);
     break;
   case TOKENIZER_ZERO:
@@ -235,7 +235,7 @@ static int factor(void) {
       accept(TOKENIZER_RIGHTPAREN);
     }
     r = builtin(builtin_token, p);
-    DEBUG_PRINTF("builtin %d(%d)=%d\n", builtin_token, p, r);
+    DEBUG_PRINTF("builtin %d(%ld)=%ld\n", builtin_token, p, r);
     break;
   case TOKENIZER_LEFTPAREN:
     accept(TOKENIZER_LEFTPAREN);
@@ -316,7 +316,7 @@ static int term(void) {
   while (op == TOKENIZER_ASTR || op == TOKENIZER_SLASH || op == TOKENIZER_MOD) {
     tokenizer_next();
     f2 = factor();
-    DEBUG_PRINTF("term: %d %d %d\n", f1, op, f2);
+    DEBUG_PRINTF("term: %ld %d %ld\n", f1, op, f2);
     switch (op) {
     case TOKENIZER_ASTR:
       f1 = f1 * f2;
@@ -330,7 +330,7 @@ static int term(void) {
     }
     op = tokenizer_token();
   }
-  DEBUG_PRINTF("term: %d\n", f1);
+  DEBUG_PRINTF("term: %ld\n", f1);
   return f1;
 }
 /*---------------------------------------------------------------------------*/
@@ -345,7 +345,7 @@ static VARIABLE_TYPE expr(void) {
          op == TOKENIZER_OR) {
     tokenizer_next();
     t2 = term();
-    DEBUG_PRINTF("expr: %d %d %d\n", t1, op, t2);
+    DEBUG_PRINTF("expr: %ld %d %ld\n", t1, op, t2);
     switch (op) {
     case TOKENIZER_PLUS:
       t1 = t1 + t2;
@@ -362,7 +362,7 @@ static VARIABLE_TYPE expr(void) {
     }
     op = tokenizer_token();
   }
-  DEBUG_PRINTF("expr: %d\n", t1);
+  DEBUG_PRINTF("expr: %ld\n", t1);
   return t1;
 }
 /*---------------------------------------------------------------------------*/
