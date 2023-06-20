@@ -267,11 +267,9 @@ int main(int argc, char *argv[]) {
     // Free the memory allocated for the program
     free(program);
   } else {
-    while (true) {
-      gpio_init(14);
-      gpio_set_dir(14, GPIO_OUT);
-      gpio_put(14, 1);
-    }
+    gpio_init(14);
+    gpio_set_dir(14, GPIO_OUT);
+    gpio_put(14, 1);
   }
   // Never actually return/exit
   while (true) {
