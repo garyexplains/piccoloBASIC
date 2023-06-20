@@ -180,7 +180,7 @@ static void accept(int token) {
 }
 /*---------------------------------------------------------------------------*/
 static int varfactor(void) {
-  int r;
+  VARIABLE_TYPE r;
   DEBUG_PRINTF("varfactor: obtaining %d from variable %d\n",
                variables[tokenizer_variable_num()], tokenizer_variable_num());
   r = ubasic_get_variable(tokenizer_variable_num());
@@ -209,8 +209,8 @@ static VARSTRING_TYPE varstrfactor(void) {
 }
 /*---------------------------------------------------------------------------*/
 static int factor(void) {
-  int r;
-  int p;
+  VARIABLE_TYPE r;
+  VARIABLE_TYPE p;
   int builtin_token;
 
   DEBUG_PRINTF("factor: token %d\n", tokenizer_token());
@@ -307,7 +307,7 @@ static VARFLOAT_TYPE factorf(void) {
 }
 /*---------------------------------------------------------------------------*/
 static int term(void) {
-  int f1, f2;
+  VARIABLE_TYPE f1, f2;
   int op;
 
   f1 = factor();
@@ -335,7 +335,7 @@ static int term(void) {
 }
 /*---------------------------------------------------------------------------*/
 static VARIABLE_TYPE expr(void) {
-  int t1, t2;
+  VARIABLE_TYPE t1, t2;
   int op;
 
   t1 = term();
