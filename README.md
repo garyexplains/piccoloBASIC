@@ -181,6 +181,36 @@ Raspberry Pi Pico has 2MB of Flash.
       |                                    |
 2048K -------------------------------------
 ```
+
+## CMD Mode
+To upload BASIC scripts and store them in LittleFS, there is a CMD mode in PiccoloBASIC. Sending `CTRL-C` twice one after the other will pause the interpreter and enter CMD mode:
+- ls
+- cd
+- rm
+- reboot
+- exit
+- upload
+
+See `pbserialmon.py` for details on the protocol for the upload command
+
+## Roadmap
+### More language features
+- Peek and poke
+- Longer variable names (currently just one letter!)
+- Negative numbers + 64 bit numbers + hex numbers
+- Better loops (steps, reverse, while etc)
+- File IO
+### More hardware support
+- Complete GPIO, I2C, SPI, PIO, etc
+- Networking and Bluetooth
+- Support some standard displays
+- USB keyboard
+### PiccoloOS
+Build PiccoloBASIC on top of [PiccoloOS](https://github.com/garyexplains/piccolo_os_v1.1)
+- Multi-tasking BASIC 👀
+- Locks and synchronization
+- Dual CPU support
+
 ## Contributing
 There is lots to do! Please feel free to fork and/or continue working on Piccolo BASIC as you see fit.
 
