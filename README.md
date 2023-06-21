@@ -47,20 +47,23 @@ The resulting file `piccoloBASIC.uf2` can be flashed on your Pico in the normal 
 ## Examples
 Here are some example programs written in PiccoloBASIC.
 ### Hello, World!
-```loop:
+```
+loop:
 print "Gary Explains"
 sleep 1
 goto loop:
 ```
 ### For loop
-```for i = 1 to 10
+```
+for i = 1 to 10
 let x = randint()
 print x
 next i
 end
 ```
 ### Gosub
-```gosub asub:
+```
+gosub asub:
 for i = 1 to 10
 print i
 next i
@@ -71,7 +74,8 @@ print "subroutine"
 return
 ```
 ### Blinky
-```pininit 25
+```
+pininit 25
 pindirout 25
 loop:
 print "ON"
