@@ -34,6 +34,16 @@ The resulting file `piccoloBASIC.uf2` can be flashed on your Pico in the normal 
 3. Use `pbserialmon.py` to see the output from your program
    - e.g. `./pbserialmon.py /dev/ttyACM0`
 
+## Features
+- Let, if, print, for, goto, gosub
+- String variables (let z$="hello")
+- Floating point numbers and variables (let z#=1.234)
+- Builtin functions [zero, randint, not, time]
+- Sleep, delay, randomize, push & pop (for integers)
+- Maths functions like cos, sin, tan, sqr, etc
+- LittleFS support
+- Rudimentary GPIO support
+
 ## Examples
 Here are some example programs written in PiccoloBASIC.
 ### Hello, World!
@@ -49,6 +59,17 @@ print x
 next i
 end
 ```
+### Gosub
+```gosub asub:
+for i = 1 to 10
+print i
+next i
+print "end"
+end
+asub:
+print "subroutine"
+return
+```
 ### Blinky
 ```pininit 25
 pindirout 25
@@ -61,7 +82,6 @@ pinoff 25
 sleep 1
 goto loop:
 ```
-
 ### 99 Bottles
 ```
 let b = 99
@@ -92,12 +112,9 @@ Here is what Adam said about the project:
 > The (non-interactive) uBASIC interpreter supports only the most basic BASIC functionality: if/then/else, for/next, let, goto, gosub, print, and mathematical expressions. There is only support for integer variables and the variables can only have single character names. I have added an API that allows for the program that uses the uBASIC interpreter to get and set BASIC variables, so it might be possible to actually use the uBASIC code for something useful (e.g. a small scripting language for an application that has to be really small).
 
 
-Modifications by Gary Sims
-==========================
-
+### Modifications by Gary Sims
 Building on the excellent work of Adam Dunkels, I have tweaked this for my needs.
 
-### Changes
 - ubas - A program to run a .bas script
 - Removed need for linenumbers (but expectedly broke goto/gosub)
 - Added labels for goto and gosub
@@ -124,6 +141,46 @@ Building on the excellent work of Adam Dunkels, I have tweaked this for my needs
 - printf is seen as print by the tokenizer as the first 5 letters are the same
 - There is probably a memory leak somewhere related to strings.
 
+## LittleFS
+- Arm developed a fail-safe filesystem for microcontrollers, it is called LittleFS
+- Power-loss resilience - littlefs is designed to handle random power failures. 
+- Dynamic wear leveling - littlefs is designed with flash in mind, and provides wear leveling over dynamic blocks.
+- Bounded RAM/ROM - littlefs is designed to work with a small amount of memory. RAM usage is strictly bounded, which means RAM consumption does not change as the filesystem grows.
+- Open source - under the BSD-3-Clause license.
+- Used by MicroPython / CircuitPython already
+
+See https://github.com/littlefs-project/littlefs
+
+### LittleFS license
+- 3-Clause BSD License
+- Copyright (c) 2022, The littlefs authors.
+- Copyright (c) 2017, Arm Limited. All rights reserved.
+
+## Flash layout
+Raspberry Pi Pico has 2MB of Flash.
+- Total flash 2048K
+- First 640K is for firmware 
+  - i.e. PiccoloBASIC or MicroPython
+- Rest is for LittleFS
+  - BASIC programs, Python scripts etc
+- This way PiccoloBASIC is compatible with MicroPython
+
+```
+0K    -------------------------------------
+      |                                    |
+      |      PiccoloBASIC firmware         |
+      |                                    |
+640K  -------------------------------------
+      |                                    |
+      |            LittelFS                |
+      |                .                   |
+      |                .                   |
+      |                .                   |
+      |            main.bas                |
+      |                                    |
+      |                                    |
+2048K -------------------------------------
+```
 ## Contributing
 There is lots to do! Please feel free to fork and/or continue working on Piccolo BASIC as you see fit.
 
