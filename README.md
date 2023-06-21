@@ -27,9 +27,58 @@ Run `make -j4`
 The resulting file `piccoloBASIC.uf2` can be flashed on your Pico in the normal way (i.e. reset will pressing `bootsel` and copy the .uf2 file to the drive).
 
 ## Usage
-Flash `piccoloBASIC.uf2` on to your Pico
-Use 
+1. Flash `piccoloBASIC.uf2` on to your Pico
+2. Use `pbserialmon.py` to upload your BASIC program.
+   - It must be called `main.bas`
+   - e.g. `./pbserialmon.py main.bas /dev/ttyACM0`
+3. Use `pbserialmon.py` to see the output from your program
+   - e.g. `./pbserialmon.py /dev/ttyACM0`
 
+## Examples
+Here are some example programs written in PiccoloBASIC.
+### Hello, World!
+```loop:
+print "Gary Explains"
+sleep 1
+goto loop:
+```
+### For loop
+```for i = 1 to 10
+let x = randint()
+print x
+next i
+end
+```
+### Blinky
+```pininit 25
+pindirout 25
+loop:
+print "ON"
+pinon 25
+sleep 1
+print "OFF"
+pinoff 25
+sleep 1
+goto loop:
+```
+
+### 99 Bottles
+```
+let b = 99
+let b$ = "99"
+let s$ = " bottles"
+for a = 1 to 99
+    print b$; s$; " of soda on the wall, "; b$; s$; " of soda."
+    let b = b - 1
+    if b > 0 then let p$ = "one"
+    if b > 0 then let b$ = b else let b$ = "no more"
+    if b = 0 then let p$ = "it"
+    if b = 1 then let s$ = " bottle" else let s$ = " bottles"
+    print "take "; p$; " down and pass it around, "; b$; s$; " of soda on the wall."
+next a
+print "no more bottles of soda on the wall, no more bottles of soda."
+print "go to the store and buy some more, 99 bottles of soda on the wall."
+```
 ## History
 The starting point for piccoloBASIC was "uBASIC: a really simple BASIC interpreter" by Adam Dunkels.
 
@@ -65,6 +114,7 @@ Building on the excellent work of Adam Dunkels, I have tweaked this for my needs
 - Added support for LittleFS
 - Added CMD mode
 - Added serial monitor and uploader tool
+- Added simple GPIO functionality
 
 ### Working on
 
