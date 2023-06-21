@@ -135,7 +135,6 @@ Building on the excellent work of Adam Dunkels, I have tweaked this for my needs
 
 ### Working on
 - Too much!
-- 
 ### BUGS
 - Many!
 - Floating point literals don't work in "if" statements: if b# < 20.9 then print "Boom"
@@ -216,6 +215,10 @@ Build PiccoloBASIC on top of [PiccoloOS](https://github.com/garyexplains/piccolo
 There is lots to do! Please feel free to fork and/or continue working on Piccolo BASIC as you see fit.
 
 ## Resources
+- [Gary Explains](https://youtube.com/c/GaryExplains)
+- [PiccoloOS](https://github.com/garyexplains/piccolo_os_v1.1)
+- [LittleFS](https://github.com/littlefs-project/littlefs)
+- [uBasic](https://github.com/adamdunkels/ubasic)
 
 ## License - 3-Clause BSD License
 Copyright (C) 2006, Adam Dunkels  
