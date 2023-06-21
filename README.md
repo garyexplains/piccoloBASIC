@@ -134,7 +134,8 @@ Building on the excellent work of Adam Dunkels, I have tweaked this for my needs
 - Added simple GPIO functionality
 
 ### Working on
-
+- Too much!
+- 
 ### BUGS
 - Many!
 - Floating point literals don't work in "if" statements: if b# < 20.9 then print "Boom"
@@ -142,7 +143,7 @@ Building on the excellent work of Adam Dunkels, I have tweaked this for my needs
 - There is probably a memory leak somewhere related to strings.
 
 ## LittleFS
-- Arm developed a fail-safe filesystem for microcontrollers, it is called LittleFS
+Arm developed a fail-safe filesystem for microcontrollers, it is called LittleFS:
 - Power-loss resilience - littlefs is designed to handle random power failures. 
 - Dynamic wear leveling - littlefs is designed with flash in mind, and provides wear leveling over dynamic blocks.
 - Bounded RAM/ROM - littlefs is designed to work with a small amount of memory. RAM usage is strictly bounded, which means RAM consumption does not change as the filesystem grows.
@@ -152,9 +153,9 @@ Building on the excellent work of Adam Dunkels, I have tweaked this for my needs
 See https://github.com/littlefs-project/littlefs
 
 ### LittleFS license
-- 3-Clause BSD License
-- Copyright (c) 2022, The littlefs authors.
-- Copyright (c) 2017, Arm Limited. All rights reserved.
+3-Clause BSD License  
+Copyright (c) 2022, The littlefs authors.  
+Copyright (c) 2017, Arm Limited. All rights reserved.
 
 ## Flash layout
 Raspberry Pi Pico has 2MB of Flash.
@@ -217,10 +218,8 @@ There is lots to do! Please feel free to fork and/or continue working on Piccolo
 ## Resources
 
 ## License - 3-Clause BSD License
-Copyright (C) 2006, Adam Dunkels
-
-Copyright (C) 2023, Gary Sims
-
-All rights reserved.
+Copyright (C) 2006, Adam Dunkels  
+Copyright (C) 2023, Gary Sims  
+All rights reserved.  
 
 SPDX short identifier: BSD-3-Clause
