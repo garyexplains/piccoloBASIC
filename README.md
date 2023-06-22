@@ -6,6 +6,7 @@ I have lots of information about PiccoloBASIC in several videos on my YouTube ch
 
 Watching these videos is the quickest way to understand what this project is about.
 
+- [Program the Raspberry Pi Pico using BASIC - Introducing PiccoloBASIC](https://youtu.be/oWyMGDDcykY)
 - [I wrote a BASIC interpreter! What should I do with it?](https://youtu.be/4MiT-29I_jI)
 - [My BASIC interpreter for the Raspberry Pi Pico is working!](https://youtube.com/shorts/7dQfG__jr_c)
 
