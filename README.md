@@ -27,6 +27,9 @@ Run `make -j4`
 
 The resulting file `piccoloBASIC.uf2` can be flashed on your Pico in the normal way (i.e. reset will pressing `bootsel` and copy the .uf2 file to the drive).
 
+## Releases
+If you don't want to build from the source code then look in [Releases](https://github.com/garyexplains/piccoloBASIC/releases) for some pre-built binaries.
+
 ## Usage
 1. Flash `piccoloBASIC.uf2` on to your Pico
 2. Use `pbserialmon.py` to upload your BASIC program.
