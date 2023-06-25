@@ -10,6 +10,11 @@ Watching these videos is the quickest way to understand what this project is abo
 - [I wrote a BASIC interpreter! What should I do with it?](https://youtu.be/4MiT-29I_jI)
 - [My BASIC interpreter for the Raspberry Pi Pico is working!](https://youtube.com/shorts/7dQfG__jr_c)
 
+## Press Coverage
+
+- [PiccoloBASIC – A BASIC interpreter for the Raspberry Pi Pico board](https://www.cnx-software.com/2023/06/23/piccolobasic-basic-interpreter-raspberry-pi-pico-board/)
+- [Raspberry Pi Pico Gets Basic Interpreter Called PiccoloBASIC](https://www.tomshardware.com/news/raspberry-pi-pico-basic-interpreter-piccolobasic)
+
 ## A Comma A Day Keeps The Pedants Away
 Since the Internet seems to be full of people with way too much time on their hands, I would just like to kindly shoo away any C/C++ pedants out there. To be honest, I am not interested.
 
